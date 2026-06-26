@@ -1,6 +1,6 @@
-// Connect-section umbrella: a 3D canopy + handle sheltering the content, with
-// shader-driven rain bouncing off it. Its own perspective scene, composited
-// into the #connect-anchor box.
+// Connect-section umbrella: a 3D canopy + handle sheltering the content. The
+// single site-wide rain (GlobalRain) falls behind it; the canopy occludes it,
+// so it reads as shelter without a second, mismatched rain system.
 
 import {
   Scene,
@@ -18,9 +18,7 @@ import {
 } from "three";
 import sphereVert from "./shaders/sphere.vert.glsl";
 import umbrellaFrag from "./shaders/umbrella.frag.glsl";
-import { createRain } from "./Rain.js";
 import { isOnScreen } from "./DomSync.js";
-import { quality } from "../modules/device.js";
 
 export class Umbrella {
   constructor(anchorEl) {
@@ -72,12 +70,6 @@ export class Umbrella {
     this.group.add(hook);
     this.metal = metal;
 
-    // rain
-    const count = quality === "low" ? 320 : 760;
-    const rain = createRain(count, 2.2);
-    this.rain = rain;
-    this.group.add(rain.points);
-
     this._sway = 0;
   }
 
@@ -91,7 +83,6 @@ export class Umbrella {
       (stage.pointerSmooth.x * 0.25 - this.group.rotation.y) * 0.04;
     this.canopyMat.uniforms.uTime.value = stage.time;
     this.canopyMat.uniforms.uFlash.value = stage.flash;
-    this.rain.material.uniforms.uTime.value = stage.time;
   }
 
   render(stage) {
@@ -103,7 +94,5 @@ export class Umbrella {
     this.canopy.geometry.dispose();
     this.canopyMat.dispose();
     this.metal.dispose();
-    this.rain.points.geometry.dispose();
-    this.rain.material.dispose();
   }
 }
