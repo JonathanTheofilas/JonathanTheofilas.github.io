@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Jonathan Theofilas</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0e0e14; --text:#e8e8ef; --muted:#9a9ab0; --accent:#e6c074; }
+    * { margin:0; box-sizing:border-box; }
+    body {
+      min-height:100dvh; display:grid; place-content:center; text-align:center;
+      gap:1.2rem; padding:2rem; background:var(--bg); color:var(--text);
+      font-family:"Space Grotesk", system-ui, sans-serif;
+    }
+    .code { font-size:clamp(4rem,18vw,9rem); font-weight:700; letter-spacing:-.04em; line-height:.9; }
+    .code span { color:var(--accent); }
+    p { color:var(--muted); font-family:"JetBrains Mono", monospace; font-size:.95rem; }
+    a {
+      justify-self:center; margin-top:.5rem; color:#0e0e14; background:var(--accent);
+      text-decoration:none; font-weight:600; padding:.75rem 1.4rem; border-radius:999px;
+      transition:transform .2s ease;
+    }
+    a:hover { transform:translateY(-2px); }
+  </style>
+</head>
+<body>
+  <div class="code">4<span>0</span>4</div>
+  <p>This page took a wrong turn.</p>
+  <a href="/">Back to home</a>
+</body>
+</html>

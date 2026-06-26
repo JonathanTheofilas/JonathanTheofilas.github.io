@@ -10,5 +10,13 @@ export default defineConfig({
     target: "es2020",
     outDir: "dist",
     assetsInlineLimit: 4096,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ["three"],
+          gsap: ["gsap"],
+        },
+      },
+    },
   },
 });

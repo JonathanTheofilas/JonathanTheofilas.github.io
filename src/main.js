@@ -7,6 +7,7 @@ import { initSections } from "./modules/sections.js";
 import { initCursor } from "./modules/cursor.js";
 import { initMagnetic } from "./modules/magnetic.js";
 import { initScramble } from "./modules/scramble.js";
+import { initGL } from "./gl/index.js";
 
 // Content is visible by default; arming this class lets the reveal styles apply.
 document.documentElement.classList.add("js-ready");
@@ -24,6 +25,8 @@ function boot() {
   initCursor();
   initMagnetic();
   initScramble();
+  // WebGL (no-ops if unsupported / reduced motion).
+  initGL();
 }
 
 if (document.readyState === "loading") {
