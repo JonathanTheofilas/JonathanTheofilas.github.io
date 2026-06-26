@@ -1,27 +1,32 @@
-// Ambient electric background: a faint drifting grid/horizon on opaque navy
-// that brightens when a bolt strikes (shared flash bus). No cursor trail.
+// Site-wide light rain: a full-viewport ortho quad with procedural streaks,
+// drawn behind the bolts and content so it falls across every section.
 
-import { PlaneGeometry, Mesh, ShaderMaterial, Color, Vector2 } from "three";
+import {
+  PlaneGeometry,
+  Mesh,
+  ShaderMaterial,
+  AdditiveBlending,
+  Vector2,
+} from "three";
 import vert from "./shaders/field.vert.glsl";
-import frag from "./shaders/lightning.frag.glsl";
+import frag from "./shaders/rainfield.frag.glsl";
 
-export class Lightning {
+export class GlobalRain {
   constructor() {
     this.material = new ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
         uRes: { value: new Vector2(1, 1) },
-        uScroll: { value: 0 },
-        uFlash: { value: 0 },
       },
       vertexShader: vert,
       fragmentShader: frag,
-      transparent: false,
+      transparent: true,
       depthTest: false,
       depthWrite: false,
+      blending: AdditiveBlending,
     });
     this.object = new Mesh(new PlaneGeometry(1, 1), this.material);
-    this.object.position.z = -60;
+    this.object.position.z = -50;
     this.object.frustumCulled = false;
   }
 
@@ -31,11 +36,7 @@ export class Lightning {
   }
 
   update(dt, stage) {
-    const u = this.material.uniforms;
-    u.uTime.value = stage.time;
-    u.uFlash.value = stage.flash;
-    const sc = Math.min(Math.abs(stage.scrollVel) * 0.05, 1);
-    u.uScroll.value += (sc - u.uScroll.value) * 0.1;
+    this.material.uniforms.uTime.value = stage.time;
   }
 
   dispose() {

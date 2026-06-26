@@ -26,11 +26,15 @@
   <!-- shared WebGL canvas (lightning) -->
   <canvas id="gl" aria-hidden="true"></canvas>
 
-  <!-- custom cursor -->
-  <div class="cursor cursor--ring" id="cursor-ring" aria-hidden="true">
-    <span class="cursor__label" id="cursor-label">View</span>
+  <!-- custom cursor: a small storm cloud -->
+  <div class="cursor cursor--cloud" id="cursor-cloud" aria-hidden="true">
+    <svg viewBox="0 0 60 40" width="46" height="31">
+      <path d="M14 33 C6 33 4 25 9 21 C7 13 16 8 22 13 C24 5 38 5 40 14 C50 12 55 20 50 27 C54 31 49 33 43 33 Z"
+            fill="#0c1426" stroke="#38bdf8" stroke-width="1.6" stroke-linejoin="round" />
+      <path d="M30 28 l-5 9 h5 l-4 7 10-11 h-5 l4-5 z" fill="#dbeafe" opacity="0.9" />
+    </svg>
+    <span class="cursor__label" id="cursor-label"></span>
   </div>
-  <div class="cursor cursor--dot" id="cursor-dot" aria-hidden="true"></div>
 
   <header class="site-nav">
     <a class="site-nav__mark" href="#top" aria-label="Top" data-magnetic>

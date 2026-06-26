@@ -3,6 +3,7 @@
 
 import { Stage } from "./Stage.js";
 import { Lightning } from "./Lightning.js";
+import { GlobalRain } from "./GlobalRain.js";
 import { Bolts } from "./Bolts.js";
 import { StormSphere } from "./StormSphere.js";
 import { Umbrella } from "./Umbrella.js";
@@ -24,6 +25,9 @@ export function initGL() {
 
   // electric lightning background (drawn first, behind everything)
   stage.add(new Lightning());
+
+  // site-wide light rain
+  stage.add(new GlobalRain());
 
   // cursor-spawned lightning bolts (ortho overlay)
   const heroAnchor = document.getElementById("hero-anchor");

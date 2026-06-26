@@ -1,5 +1,5 @@
-// Custom cursor: a fast dot and a lagging ring, with a small state machine
-// (default | hover | label). Only enabled on fine pointers.
+// Custom cursor: a small storm cloud that follows the pointer (the lightning
+// bolts spawn from the cursor, so they crackle out of it). Fine pointers only.
 
 import { gsap } from "gsap";
 import { finePointer, reducedMotion } from "./device.js";
@@ -7,17 +7,14 @@ import { finePointer, reducedMotion } from "./device.js";
 export function initCursor() {
   if (!finePointer || reducedMotion) return;
 
-  const dot = document.getElementById("cursor-dot");
-  const ring = document.getElementById("cursor-ring");
+  const cloud = document.getElementById("cursor-cloud");
   const label = document.getElementById("cursor-label");
-  if (!dot || !ring) return;
+  if (!cloud) return;
 
   document.body.classList.add("has-custom-cursor");
 
-  const dotX = gsap.quickTo(dot, "x", { duration: 0.12, ease: "power3.out" });
-  const dotY = gsap.quickTo(dot, "y", { duration: 0.12, ease: "power3.out" });
-  const ringX = gsap.quickTo(ring, "x", { duration: 0.4, ease: "power3.out" });
-  const ringY = gsap.quickTo(ring, "y", { duration: 0.4, ease: "power3.out" });
+  const xTo = gsap.quickTo(cloud, "x", { duration: 0.16, ease: "power3.out" });
+  const yTo = gsap.quickTo(cloud, "y", { duration: 0.16, ease: "power3.out" });
 
   let visible = false;
   window.addEventListener(
@@ -25,36 +22,30 @@ export function initCursor() {
     (e) => {
       if (!visible) {
         visible = true;
-        gsap.to([dot, ring], { autoAlpha: 1, duration: 0.3 });
+        gsap.to(cloud, { autoAlpha: 1, duration: 0.3 });
       }
-      dotX(e.clientX);
-      dotY(e.clientY);
-      ringX(e.clientX);
-      ringY(e.clientY);
+      xTo(e.clientX);
+      yTo(e.clientY);
     },
     { passive: true }
   );
 
   window.addEventListener("pointerleave", () => {
     visible = false;
-    gsap.to([dot, ring], { autoAlpha: 0, duration: 0.2 });
+    gsap.to(cloud, { autoAlpha: 0, duration: 0.2 });
   });
 
-  // Hover targets
-  const hoverSel = "a, button, [data-magnetic]";
-  document.querySelectorAll(hoverSel).forEach((el) => {
+  document.querySelectorAll("a, button, [data-magnetic]").forEach((el) => {
     el.addEventListener("pointerenter", () => {
-      const labelText = el.getAttribute("data-cursor");
-      if (labelText) {
-        ring.classList.remove("is-hover");
-        ring.classList.add("is-label");
-        if (label) label.textContent = labelText;
-      } else {
-        ring.classList.add("is-hover");
+      cloud.classList.add("is-hover");
+      const t = el.getAttribute("data-cursor");
+      if (label) {
+        label.textContent = t || "";
+        cloud.classList.toggle("is-label", !!t);
       }
     });
     el.addEventListener("pointerleave", () => {
-      ring.classList.remove("is-hover", "is-label");
+      cloud.classList.remove("is-hover", "is-label");
     });
   });
 }

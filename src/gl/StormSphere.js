@@ -59,6 +59,7 @@ export class StormSphere {
     this.group.add(this.cloud);
 
     this._strikeTimer = 1 + Math.random() * 2;
+    this._spin = 0;
   }
 
   resize() {}
@@ -66,12 +67,12 @@ export class StormSphere {
   update(dt, stage) {
     if (!this.el || !isOnScreen(this.el, 80)) return;
 
-    this.group.rotation.y += dt * 0.15;
-    // lean toward cursor
-    this.group.rotation.x +=
-      (-stage.pointerSmooth.y * 0.35 - this.group.rotation.x) * 0.05;
-    this.group.rotation.z +=
-      (stage.pointerSmooth.x * 0.12 - this.group.rotation.z) * 0.05;
+    // slow auto-spin + strong cursor coupling: moving the mouse turns the orb
+    this._spin += dt * 0.1;
+    const targetY = this._spin + stage.pointerSmooth.x * 0.9;
+    const targetX = -stage.pointerSmooth.y * 0.6;
+    this.group.rotation.y += (targetY - this.group.rotation.y) * 0.1;
+    this.group.rotation.x += (targetX - this.group.rotation.x) * 0.1;
 
     this.coreMat.uniforms.uTime.value = stage.time;
     this.cloudMat.uniforms.uTime.value = stage.time;
