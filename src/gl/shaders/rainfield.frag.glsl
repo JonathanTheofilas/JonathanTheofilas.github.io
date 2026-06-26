@@ -20,7 +20,8 @@ void main() {
   float off = hash(c * 1.7) * 10.0;
 
   float colMask = smoothstep(0.5, 0.0, abs(fract(uv.x * cols) - 0.5));
-  float yy = fract(uv.y * 2.0 - uTime * speed + off);
+  // +uTime so the drop head moves DOWN the column (uv.y is 0 at the bottom)
+  float yy = fract(uv.y * 2.0 + uTime * speed + off);
   float head = pow(yy, 18.0); // sharp falling drop head
 
   float drop = head * colMask * step(0.45, hash(c * 2.3)); // sparse columns
