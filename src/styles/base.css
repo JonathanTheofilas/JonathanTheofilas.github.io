@@ -1,27 +1,29 @@
 /* =============================================================
    Design tokens — three layers: primitive -> semantic -> component
-   Colors stored as HSL channel triplets so alpha can be composed
-   with hsl(var(--token) / <alpha>).
+   Palette: deep navy base, white text, electric blue/cyan accent.
+   Colors as HSL channel triplets so alpha composes with hsl(var(--t) / a).
    ============================================================= */
 
 :root {
   /* ---------- LAYER 1: PRIMITIVES ---------- */
 
-  /* neutrals (cool, single gray family, tinted toward the bg hue 240) */
-  --c-ink-900: 240 18% 7%;   /* base background, off-black (never #000) */
-  --c-ink-800: 240 17% 9%;
-  --c-ink-700: 240 16% 12%;  /* elevated surface */
-  --c-ink-600: 240 13% 16%;
-  --c-ink-500: 240 12% 22%;  /* borders / lines */
-  --c-ink-400: 240 9% 40%;
-  --c-ink-300: 240 8% 62%;   /* muted text */
-  --c-ink-100: 240 14% 90%;  /* default text */
-  --c-ink-050: 240 20% 96%;
+  /* navy neutrals (single cool family) */
+  --c-ink-900: 224 44% 4%;    /* base background #06080f */
+  --c-ink-800: 226 38% 8%;    /* #0b0e1a */
+  --c-ink-700: 226 36% 12%;   /* elevated surface #101426 */
+  --c-ink-600: 224 30% 18%;
+  --c-ink-500: 220 26% 26%;   /* borders / lines */
+  --c-ink-400: 220 16% 46%;
+  --c-ink-300: 220 16% 68%;   /* muted text */
+  --c-ink-100: 222 44% 96%;   /* default text #eef2fb */
+  --c-ink-050: 220 60% 99%;
 
-  /* single accent: desaturated gold (kept below the "screaming" range) */
-  --c-gold-300: 44 78% 74%;
-  --c-gold-400: 44 72% 66%;  /* main accent */
-  --c-gold-500: 42 60% 54%;
+  /* electric accent */
+  --c-elec-300: 204 94% 82%;  /* pale cyan */
+  --c-elec-400: 199 92% 60%;  /* cyan #38bdf8 */
+  --c-elec-500: 217 91% 60%;  /* blue #3b82f6 (main accent) */
+  --c-elec-600: 221 83% 53%;
+  --c-elec-core: 214 90% 93%; /* white-blue #dbeafe */
 
   /* typography */
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
@@ -39,12 +41,12 @@
   --fs-lead: clamp(1.15rem, 1rem + 0.9vw, 1.5rem);
   --fs-h3: clamp(1.2rem, 1rem + 1vw, 1.6rem);
   --fs-h2: clamp(1.9rem, 1.4rem + 2.4vw, 3rem);
-  --fs-h1: clamp(2.8rem, 1.6rem + 6vw, 6.5rem);
+  --fs-h1: clamp(2.8rem, 1.6rem + 6vw, 6rem);
   --fs-display: clamp(3.4rem, 1.4rem + 9vw, 9rem);
 
   --tracking-tight: -0.03em;
   --tracking-snug: -0.015em;
-  --tracking-wide: 0.12em;
+  --tracking-wide: 0.14em;
 
   /* spacing (8px base) */
   --sp-1: 0.5rem;
@@ -58,9 +60,9 @@
 
   /* sizing */
   --container: 1280px;
-  --measure: 65ch;
+  --measure: 60ch;
 
-  /* radius (varied: tighter inner, softer outer) */
+  /* radius */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -75,7 +77,7 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* z-index scale (no arbitrary 9999) */
+  /* z-index scale */
   --z-canvas: 0;
   --z-content: 1;
   --z-nav: 100;
@@ -87,21 +89,21 @@
   --bg-soft: hsl(var(--c-ink-800));
   --surface: hsl(var(--c-ink-700));
   --surface-hover: hsl(var(--c-ink-600));
-  --border: hsl(var(--c-ink-500) / 0.6);
+  --border: hsl(var(--c-ink-500) / 0.55);
   --border-strong: hsl(var(--c-ink-500));
   --text: hsl(var(--c-ink-100));
   --text-strong: hsl(var(--c-ink-050));
   --text-muted: hsl(var(--c-ink-300));
-  --accent: hsl(var(--c-gold-400));
-  --accent-bright: hsl(var(--c-gold-300));
-  --accent-dim: hsl(var(--c-gold-500));
+  --accent: hsl(var(--c-elec-500));
+  --accent-bright: hsl(var(--c-elec-400));
+  --accent-dim: hsl(var(--c-elec-600));
   --on-accent: hsl(var(--c-ink-900));
-  --focus-ring: hsl(var(--c-gold-300) / 0.8);
+  --focus-ring: hsl(var(--c-elec-400) / 0.85);
 
-  /* tinted shadows (carry the bg hue, not pure black) */
-  --shadow-sm: 0 2px 8px hsl(var(--c-ink-900) / 0.5);
-  --shadow-md: 0 12px 30px -10px hsl(240 40% 3% / 0.7);
-  --shadow-glow: 0 0 40px -8px hsl(var(--c-gold-400) / 0.35);
+  /* navy-tinted shadows + electric glow */
+  --shadow-sm: 0 2px 8px hsl(var(--c-ink-900) / 0.6);
+  --shadow-md: 0 14px 34px -12px hsl(224 60% 2% / 0.8);
+  --shadow-glow: 0 0 38px -6px hsl(var(--c-elec-400) / 0.5);
 }
 
 /* ---------- RESET ---------- */
@@ -117,8 +119,6 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
-
-/* When Lenis is active it manages scrolling; disable native smooth-scroll. */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -139,7 +139,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ambient radial wash (single hue, no blue "AI gradient") */
+/* faint electric ambient wash (only matters where the canvas is absent) */
 body::before {
   content: "";
   position: fixed;
@@ -147,18 +147,18 @@ body::before {
   z-index: var(--z-canvas);
   pointer-events: none;
   background:
-    radial-gradient(60rem 45rem at 78% -8%, hsl(var(--c-gold-400) / 0.06), transparent 60%),
-    radial-gradient(50rem 40rem at -8% 12%, hsl(var(--c-ink-600) / 0.5), transparent 60%);
+    radial-gradient(60rem 45rem at 80% -10%, hsl(var(--c-elec-500) / 0.06), transparent 60%),
+    radial-gradient(50rem 40rem at -10% 110%, hsl(var(--c-elec-400) / 0.05), transparent 60%);
 }
 
-/* grain overlay to break flatness */
+/* grain overlay */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: var(--z-grain);
   pointer-events: none;
-  opacity: 0.045;
+  opacity: 0.04;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -167,14 +167,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
 img,
 svg,
 canvas {
   display: block;
   max-width: 100%;
 }
-
 button {
   font: inherit;
   color: inherit;
@@ -184,7 +182,7 @@ button {
 }
 
 ::selection {
-  background: hsl(var(--c-gold-400) / 0.85);
+  background: hsl(var(--c-elec-400) / 0.9);
   color: var(--on-accent);
 }
 
@@ -194,7 +192,6 @@ button {
   border-radius: var(--radius-xs);
 }
 
-/* headings */
 h1,
 h2,
 h3 {
@@ -204,25 +201,22 @@ h3 {
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
 }
-
 p {
   text-wrap: pretty;
 }
 
-/* tabular figures for data/labels */
 .mono,
 .tabular {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
-/* skip link */
 .skip-link {
   position: absolute;
   left: var(--sp-2);
   top: -3rem;
   z-index: calc(var(--z-cursor) + 1);
-  background: var(--accent);
+  background: var(--accent-bright);
   color: var(--on-accent);
   padding: 0.5rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -233,28 +227,25 @@ p {
   top: var(--sp-2);
 }
 
-/* reveal animation: visible by default; JS adds .js-ready to hide-then-reveal */
-.js-ready .reveal {
-  opacity: 0;
-  transform: translateY(22px);
+/* ---------- REVEALS ----------
+   Visible by default (no JS / reduced motion = content shows).
+   The hidden start state is opt-in: JS adds [data-reveal="armed"] only after
+   wiring the scroll-scrubbed reveal, and GSAP then drives the transform. */
+.reveal {
   will-change: transform, opacity;
 }
-.js-ready .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-  transition: opacity var(--dur-slow) var(--ease-out-expo),
-    transform var(--dur-slow) var(--ease-out-expo);
+.reveal[data-reveal="armed"] {
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .js-ready .reveal,
-  .js-ready .reveal.is-visible {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .reveal,
+  .reveal[data-reveal="armed"] {
+    opacity: 1 !important;
+    transform: none !important;
   }
   *,
   *::before,

@@ -17,8 +17,9 @@ import { syncToRect, isOnScreen } from "./DomSync.js";
 import { finePointer } from "../modules/device.js";
 
 const GEO = new PlaneGeometry(1, 1);
-const GOLD = new Color(0xffd27a);
-const GOLD_DEEP = new Color(0x14111c);
+// electric palette (uniform names kept for minimal churn)
+const GOLD = new Color(0x49b6f7); // cyan-blue accent
+const GOLD_DEEP = new Color(0x0a0e1c); // deep navy
 
 export class ProjectGrid {
   constructor(tileEls) {

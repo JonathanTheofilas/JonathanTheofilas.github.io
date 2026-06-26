@@ -1,9 +1,8 @@
-// WebGL entry: builds the shared Stage and plugs in the layers. No-ops cleanly
-// when WebGL is unavailable or reduced motion is requested.
+// WebGL entry: shared Stage + lightning background + project distortion grid.
+// No-ops when WebGL is unavailable or reduced motion is requested.
 
 import { Stage } from "./Stage.js";
-import { Globe } from "./Globe.js";
-import { Field } from "./Particles.js";
+import { Lightning } from "./Lightning.js";
 import { ProjectGrid } from "./ProjectGrid.js";
 import { webglOK, reducedMotion } from "../modules/device.js";
 import { scrollState } from "../modules/scroll.js";
@@ -20,12 +19,8 @@ export function initGL() {
   // feed scroll velocity into the stage each frame
   stage.add({ update: () => stage.setScrollVelocity(scrollState.velocity) });
 
-  // ambient flow field (behind everything)
-  stage.add(new Field());
-
-  // hero globe
-  const globeEl = document.querySelector('[data-gl="globe"]');
-  if (globeEl) stage.add(new Globe(globeEl));
+  // electric lightning background (drawn first, behind everything)
+  stage.add(new Lightning());
 
   // project distortion grid
   const tiles = document.querySelectorAll("#project-grid .tile");

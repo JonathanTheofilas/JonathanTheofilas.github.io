@@ -1,6 +1,5 @@
 /* =============================================================
-   Components — buttons, cards, tiles, tags, cursor
-   Each component's states (default/hover/active/focus) live here.
+   Components — buttons, tiles, tags, cursor
    ============================================================= */
 
 /* ---------- BUTTONS ---------- */
@@ -26,18 +25,19 @@
 }
 .btn:hover {
   transform: translateY(-2px);
-  border-color: var(--accent);
+  border-color: var(--accent-bright);
 }
 .btn:active {
   transform: translateY(0) scale(0.98);
 }
 .btn--solid {
-  --btn-bg: var(--accent);
+  --btn-bg: var(--accent-bright);
   --btn-fg: var(--on-accent);
-  --btn-border: var(--accent);
+  --btn-border: var(--accent-bright);
 }
 .btn--solid:hover {
-  --btn-bg: var(--accent-bright);
+  --btn-bg: var(--accent);
+  --btn-border: var(--accent);
   box-shadow: var(--shadow-glow);
 }
 .btn .icon {
@@ -55,68 +55,11 @@
 .tag {
   font-family: var(--font-mono);
   font-size: var(--fs-label);
-  color: var(--accent-dim);
+  color: var(--accent-bright);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   padding: 0.25rem 0.75rem;
   list-style: none;
-  transition: color var(--dur-fast) var(--ease-out-quart),
-    border-color var(--dur-fast) var(--ease-out-quart);
-}
-.tags--lg li {
-  font-size: 0.82rem;
-  color: var(--text);
-  padding: 0.4rem 0.9rem;
-}
-.tags--lg li:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* ---------- CARD (works / generic) ---------- */
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: hsl(var(--c-ink-700) / 0.6);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: var(--sp-3);
-  overflow: hidden;
-  transition: transform var(--dur-med) var(--ease-out-expo),
-    border-color var(--dur-med) var(--ease-out-expo),
-    background var(--dur-med) var(--ease-out-expo);
-}
-.card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-strong);
-  background: hsl(var(--c-ink-600) / 0.6);
-}
-.card__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.7rem;
-}
-.card__title {
-  font-size: var(--fs-h3);
-  font-weight: var(--fw-semibold);
-}
-.card__arrow {
-  color: var(--accent);
-  transition: transform var(--dur-med) var(--ease-out-expo);
-}
-.card:hover .card__arrow {
-  transform: translate(3px, -3px);
-}
-.card__blurb {
-  color: var(--text-muted);
-  font-size: 0.96rem;
-  flex: 1;
-  margin-bottom: var(--sp-2);
-  max-width: var(--measure);
 }
 
 /* ---------- PROJECT TILE (WebGL distortion grid) ---------- */
@@ -131,15 +74,18 @@
   padding: var(--sp-3);
   overflow: hidden;
   isolation: isolate;
-  /* the WebGL plane renders behind this transparent box; a CSS fallback
-     gradient shows if WebGL is unavailable */
+  /* CSS fallback gradient if WebGL is unavailable */
   background:
-    radial-gradient(120% 120% at 100% 0%, hsl(var(--c-gold-400) / 0.1), transparent 55%),
-    hsl(var(--c-ink-800) / 0.7);
-  transition: border-color var(--dur-med) var(--ease-out-expo);
+    radial-gradient(120% 120% at 100% 0%, hsl(var(--c-elec-500) / 0.16), transparent 55%),
+    hsl(var(--c-ink-800) / 0.75);
+  transition: border-color var(--dur-med) var(--ease-out-expo),
+    transform var(--dur-med) var(--ease-out-expo);
 }
 .webgl-on .tile {
-  background: hsl(var(--c-ink-900) / 0.15);
+  background: hsl(var(--c-ink-900) / 0.12);
+}
+.tile:hover {
+  border-color: hsl(var(--c-elec-400) / 0.6);
 }
 /* spotlight / cursor-lit border */
 .tile::before {
@@ -150,7 +96,7 @@
   padding: 1px;
   background: radial-gradient(
     16rem 16rem at var(--mx, 50%) var(--my, 0%),
-    hsl(var(--c-gold-300) / 0.6),
+    hsl(var(--c-elec-300) / 0.7),
     transparent 60%
   );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -177,7 +123,7 @@
 .tile__blurb {
   color: var(--text-muted);
   font-size: 0.95rem;
-  max-width: 40ch;
+  max-width: 42ch;
   margin-bottom: var(--sp-2);
   opacity: 0;
   max-height: 0;
@@ -189,10 +135,9 @@
 .tile:hover .tile__blurb,
 .tile:focus-within .tile__blurb {
   opacity: 1;
-  max-height: 8rem;
+  max-height: 9rem;
   transform: none;
 }
-/* on touch / no-hover, show the blurb by default */
 @media (hover: none) {
   .tile__blurb {
     opacity: 1;
@@ -212,37 +157,40 @@
   opacity: 0;
 }
 .cursor--dot {
-  width: 7px;
-  height: 7px;
-  margin: -3.5px 0 0 -3.5px;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--accent-bright);
 }
 .cursor--ring {
-  width: 38px;
-  height: 38px;
-  margin: -19px 0 0 -19px;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
   border-radius: 50%;
-  border: 1px solid hsl(var(--c-ink-100) / 0.5);
+  border: 1.5px solid #fff;
+  /* invert against whatever is under it — works over navy and white */
+  mix-blend-mode: difference;
   transition: width var(--dur-fast) var(--ease-out-quart),
     height var(--dur-fast) var(--ease-out-quart),
     margin var(--dur-fast) var(--ease-out-quart),
     background var(--dur-fast) var(--ease-out-quart),
-    border-color var(--dur-fast) var(--ease-out-quart);
+    border-color var(--dur-fast) var(--ease-out-quart),
+    border-width var(--dur-fast) var(--ease-out-quart);
 }
 .cursor--ring.is-hover {
-  width: 56px;
-  height: 56px;
-  margin: -28px 0 0 -28px;
-  border-color: var(--accent);
-  background: hsl(var(--c-gold-400) / 0.08);
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border-width: 1px;
 }
 .cursor--ring.is-label {
-  width: 84px;
-  height: 84px;
-  margin: -42px 0 0 -42px;
+  width: 78px;
+  height: 78px;
+  margin: -39px 0 0 -39px;
   border-color: transparent;
-  background: var(--accent);
+  background: var(--accent-bright);
+  mix-blend-mode: normal;
 }
 .cursor__label {
   display: grid;
@@ -250,8 +198,8 @@
   width: 100%;
   height: 100%;
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--on-accent);
   opacity: 0;
@@ -261,7 +209,6 @@
   opacity: 1;
 }
 
-/* hide native cursor only when the custom one is active */
 .has-custom-cursor,
 .has-custom-cursor a,
 .has-custom-cursor button,

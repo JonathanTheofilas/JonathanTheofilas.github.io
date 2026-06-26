@@ -1,32 +1,34 @@
-// Scroll-reveal via IntersectionObserver + CSS transitions.
-// Deliberately NOT rAF/GSAP-driven so the visible end-state is always reached
-// (background-tab loads, reduced motion, or a dead ticker never hide content).
+// "Brought-in" reveals: GSAP ScrollTrigger with `scrub`, so an element's
+// position is interpolated by scroll (pulled up + scaled in) rather than a
+// time-based fade. Visible by default; the hidden start is opt-in via the
+// [data-reveal="armed"] attribute so JS-dead / reduced-motion stays readable.
 
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { reducedMotion } from "./device.js";
 
 export function initReveal() {
-  const els = Array.from(document.querySelectorAll(".reveal"));
+  if (reducedMotion) return; // CSS default keeps everything visible
 
-  if (reducedMotion || !("IntersectionObserver" in window)) {
-    els.forEach((el) => el.classList.add("is-visible"));
-    return;
-  }
-
-  const io = new IntersectionObserver(
-    (entries, obs) => {
-      // stagger within a single batch of entries
-      let i = 0;
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const el = entry.target;
-        el.style.transitionDelay = `${(i % 6) * 70}ms`;
-        el.classList.add("is-visible");
-        obs.unobserve(el);
-        i++;
+  gsap.utils.toArray(".reveal").forEach((el, i) => {
+    el.setAttribute("data-reveal", "armed");
+    gsap.fromTo(
+      el,
+      { yPercent: 18, scale: 0.96, autoAlpha: 0 },
+      {
+        yPercent: 0,
+        scale: 1,
+        autoAlpha: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: `top ${90 - (i % 5) * 2}%`,
+          end: "top 56%",
+          scrub: 0.6,
+        },
       }
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -7% 0px" }
-  );
+    );
+  });
 
-  els.forEach((el) => io.observe(el));
+  ScrollTrigger.refresh();
 }

@@ -1,16 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#0e0e14"/>
-  <radialGradient id="g" cx="80%" cy="0%" r="80%">
-    <stop offset="0%" stop-color="#e6c074" stop-opacity="0.16"/>
-    <stop offset="60%" stop-color="#0e0e14" stop-opacity="0"/>
+  <rect width="1200" height="630" fill="#06080f"/>
+  <radialGradient id="g" cx="82%" cy="6%" r="80%">
+    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.22"/>
+    <stop offset="60%" stop-color="#06080f" stop-opacity="0"/>
   </radialGradient>
   <rect width="1200" height="630" fill="url(#g)"/>
-  <g fill="none" stroke="#e6c074" stroke-width="2" opacity="0.85" transform="translate(980,150)">
-    <circle r="70"/>
-    <ellipse rx="28" ry="70"/>
-    <path d="M-70 0h140M-60 -36h120M-60 36h120"/>
-  </g>
-  <text x="90" y="300" fill="#f4f4f8" font-family="'Space Grotesk',Inter,sans-serif" font-size="92" font-weight="700" letter-spacing="-3">Jonathan Theofilas</text>
-  <text x="92" y="360" fill="#9a9ab0" font-family="'JetBrains Mono',monospace" font-size="30">Computer science graduate · Melbourne</text>
-  <text x="92" y="408" fill="#e6c074" font-family="'JetBrains Mono',monospace" font-size="26">systems in C · full-stack on AWS · AR</text>
+  <path d="M1010 90 935 235h70l-12 95 96-140h-66l13-90z" fill="#38bdf8" opacity="0.9"/>
+  <text x="90" y="300" fill="#eef2fb" font-family="'Space Grotesk',Inter,sans-serif" font-size="96" font-weight="700" letter-spacing="-3">Selected work</text>
+  <text x="92" y="362" fill="#9aa7c2" font-family="'JetBrains Mono',monospace" font-size="30">systems · cloud · AR</text>
+  <text x="92" y="410" fill="#38bdf8" font-family="'JetBrains Mono',monospace" font-size="26">jonathantheofilas.github.io</text>
 </svg>
