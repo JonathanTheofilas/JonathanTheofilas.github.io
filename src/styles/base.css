@@ -1,0 +1,265 @@
+/* =============================================================
+   Design tokens — three layers: primitive -> semantic -> component
+   Colors stored as HSL channel triplets so alpha can be composed
+   with hsl(var(--token) / <alpha>).
+   ============================================================= */
+
+:root {
+  /* ---------- LAYER 1: PRIMITIVES ---------- */
+
+  /* neutrals (cool, single gray family, tinted toward the bg hue 240) */
+  --c-ink-900: 240 18% 7%;   /* base background, off-black (never #000) */
+  --c-ink-800: 240 17% 9%;
+  --c-ink-700: 240 16% 12%;  /* elevated surface */
+  --c-ink-600: 240 13% 16%;
+  --c-ink-500: 240 12% 22%;  /* borders / lines */
+  --c-ink-400: 240 9% 40%;
+  --c-ink-300: 240 8% 62%;   /* muted text */
+  --c-ink-100: 240 14% 90%;  /* default text */
+  --c-ink-050: 240 20% 96%;
+
+  /* single accent: desaturated gold (kept below the "screaming" range) */
+  --c-gold-300: 44 78% 74%;
+  --c-gold-400: 44 72% 66%;  /* main accent */
+  --c-gold-500: 42 60% 54%;
+
+  /* typography */
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* fluid type scale */
+  --fs-label: clamp(0.72rem, 0.68rem + 0.2vw, 0.8rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.25vw, 1.12rem);
+  --fs-lead: clamp(1.15rem, 1rem + 0.9vw, 1.5rem);
+  --fs-h3: clamp(1.2rem, 1rem + 1vw, 1.6rem);
+  --fs-h2: clamp(1.9rem, 1.4rem + 2.4vw, 3rem);
+  --fs-h1: clamp(2.8rem, 1.6rem + 6vw, 6.5rem);
+  --fs-display: clamp(3.4rem, 1.4rem + 9vw, 9rem);
+
+  --tracking-tight: -0.03em;
+  --tracking-snug: -0.015em;
+  --tracking-wide: 0.12em;
+
+  /* spacing (8px base) */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2rem;
+  --sp-5: 3rem;
+  --sp-6: 4.5rem;
+  --sp-7: 7rem;
+  --sp-8: 10rem;
+
+  /* sizing */
+  --container: 1280px;
+  --measure: 65ch;
+
+  /* radius (varied: tighter inner, softer outer) */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 26px;
+  --radius-pill: 999px;
+
+  /* motion */
+  --dur-fast: 0.2s;
+  --dur-med: 0.5s;
+  --dur-slow: 0.9s;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* z-index scale (no arbitrary 9999) */
+  --z-canvas: 0;
+  --z-content: 1;
+  --z-nav: 100;
+  --z-grain: 300;
+  --z-cursor: 400;
+
+  /* ---------- LAYER 2: SEMANTIC ---------- */
+  --bg: hsl(var(--c-ink-900));
+  --bg-soft: hsl(var(--c-ink-800));
+  --surface: hsl(var(--c-ink-700));
+  --surface-hover: hsl(var(--c-ink-600));
+  --border: hsl(var(--c-ink-500) / 0.6);
+  --border-strong: hsl(var(--c-ink-500));
+  --text: hsl(var(--c-ink-100));
+  --text-strong: hsl(var(--c-ink-050));
+  --text-muted: hsl(var(--c-ink-300));
+  --accent: hsl(var(--c-gold-400));
+  --accent-bright: hsl(var(--c-gold-300));
+  --accent-dim: hsl(var(--c-gold-500));
+  --on-accent: hsl(var(--c-ink-900));
+  --focus-ring: hsl(var(--c-gold-300) / 0.8);
+
+  /* tinted shadows (carry the bg hue, not pure black) */
+  --shadow-sm: 0 2px 8px hsl(var(--c-ink-900) / 0.5);
+  --shadow-md: 0 12px 30px -10px hsl(240 40% 3% / 0.7);
+  --shadow-glow: 0 0 40px -8px hsl(var(--c-gold-400) / 0.35);
+}
+
+/* ---------- RESET ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* When Lenis is active it manages scrolling; disable native smooth-scroll. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ambient radial wash (single hue, no blue "AI gradient") */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 45rem at 78% -8%, hsl(var(--c-gold-400) / 0.06), transparent 60%),
+    radial-gradient(50rem 40rem at -8% 12%, hsl(var(--c-ink-600) / 0.5), transparent 60%);
+}
+
+/* grain overlay to break flatness */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: hsl(var(--c-gold-400) / 0.85);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+/* headings */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* tabular figures for data/labels */
+.mono,
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* skip link */
+.skip-link {
+  position: absolute;
+  left: var(--sp-2);
+  top: -3rem;
+  z-index: calc(var(--z-cursor) + 1);
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-weight: var(--fw-semibold);
+  transition: top var(--dur-fast) var(--ease-out-quart);
+}
+.skip-link:focus {
+  top: var(--sp-2);
+}
+
+/* reveal animation: visible by default; JS adds .js-ready to hide-then-reveal */
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  will-change: transform, opacity;
+}
+.js-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-slow) var(--ease-out-expo),
+    transform var(--dur-slow) var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js-ready .reveal,
+  .js-ready .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

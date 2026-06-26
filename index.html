@@ -3,164 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jonathan Theofilas — Software Engineer</title>
-  <meta name="description" content="Jonathan Theofilas — Computer Science graduate from Melbourne. Cloud, systems programming, and AR development." />
+  <title>Jonathan Theofilas — software engineer</title>
+  <meta name="description" content="Jonathan Theofilas is a computer science graduate from Melbourne who builds low-level systems in C, full-stack apps on AWS, and AR for the Meta Quest." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-  <!-- Open Graph / social preview -->
-  <meta property="og:title" content="Jonathan Theofilas — Software Engineer" />
-  <meta property="og:description" content="Computer Science graduate from Melbourne. Cloud · Systems · AR." />
   <meta property="og:type" content="website" />
+  <meta property="og:title" content="Jonathan Theofilas — software engineer" />
+  <meta property="og:description" content="Computer science graduate from Melbourne. Systems in C, full-stack on AWS, AR for the Meta Quest." />
   <meta property="og:url" content="https://jonathantheofilas.github.io" />
+  <meta property="og:image" content="/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="/src/main.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#about">Skip to content</a>
 
-  <!-- ───────────────── NAV ───────────────── -->
-  <header class="nav" id="top">
-    <a href="#top" class="nav__brand">JT</a>
-    <nav class="nav__links" aria-label="Primary">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
+  <!-- shared WebGL canvas (created/used by the GL stage; harmless if JS is off) -->
+  <canvas id="gl" aria-hidden="true"></canvas>
+
+  <!-- custom cursor (revealed by JS only on fine pointers) -->
+  <div class="cursor cursor--ring" id="cursor-ring" aria-hidden="true">
+    <span class="cursor__label" id="cursor-label">View</span>
+  </div>
+  <div class="cursor cursor--dot" id="cursor-dot" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <a class="site-nav__brand" href="#top" data-magnetic>JT<b>.</b></a>
+    <nav class="site-nav__links" aria-label="Primary">
+      <a href="#about" data-scramble>about</a>
+      <a href="#skills" data-scramble>skills</a>
+      <a href="#works" data-scramble>works</a>
+      <a href="#projects" data-scramble>projects</a>
+      <a href="#contact" data-scramble>contact</a>
     </nav>
   </header>
 
-  <main>
-    <!-- ───────────────── HERO ───────────────── -->
-    <section class="hero">
-      <p class="hero__eyebrow reveal">Melbourne, Australia</p>
-      <h1 class="hero__title reveal">
-        Jonathan<br /><span class="accent">Theofilas</span>
-      </h1>
-      <p class="hero__tag reveal">
-        Software engineer &amp; computer scientist building across
-        <strong>cloud</strong>, <strong>systems</strong>, and <strong>AR</strong>.
-      </p>
-      <div class="hero__cta reveal">
-        <a class="btn btn--solid" href="#projects">View work</a>
-        <a class="btn btn--ghost" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener">GitHub ↗</a>
+  <main id="top">
+    <!-- ===================== HERO ===================== -->
+    <section class="hero container" id="hero">
+      <div class="hero__inner">
+        <p class="hero__eyebrow eyebrow reveal">Melbourne, Australia</p>
+        <h1 class="hero__title reveal">Jonathan<br /><span class="accent">Theofilas</span></h1>
+        <p class="hero__tag reveal">
+          Computer science graduate. I build <b>low-level systems in C</b>,
+          <b>full-stack apps on AWS</b>, and <b>AR for the Meta Quest</b>.
+        </p>
+        <div class="hero__cta reveal">
+          <a class="btn btn--solid" href="#projects" data-magnetic>See the work</a>
+          <a class="btn" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener" data-magnetic>
+            GitHub
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
       </div>
+      <p class="hero__scroll reveal">scroll ↓</p>
     </section>
 
-    <!-- ───────────────── ABOUT ───────────────── -->
-    <section id="about" class="section">
-      <h2 class="section__title reveal"><span class="section__num">01</span> About</h2>
-      <div class="about reveal">
-        <p>
-          I'm a recent Computer Science graduate from <strong>RMIT</strong> (Class of 2025).
-          I like building things that touch real hardware and real users — cloud
-          architectures on AWS, augmented-reality experiences for the Meta Quest, and
-          low-level systems written from scratch in C.
-        </p>
-        <p>
-          Before code, I spent five years running high-pressure café operations — which,
-          it turns out, is excellent training for staying calm while debugging production.
-        </p>
-        <ul class="about__facts">
-          <li><span>Education</span> RMIT B.Sc. Computer Science</li>
-          <li><span>Based in</span> Melbourne, Australia</li>
-          <li><span>Languages</span> English · Greek</li>
-          <li><span>Award</span> People's Choice — Boeing Hackathon</li>
+    <!-- ===================== ABOUT ===================== -->
+    <section class="section container" id="about">
+      <div class="section__head">
+        <span class="section__num">01</span>
+        <h2 class="section__title reveal">About</h2>
+      </div>
+      <div class="about">
+        <div class="about__body">
+          <p class="reveal">I finished my computer science degree at <strong>RMIT in 2025</strong>. Most of what I make sits at two extremes: low-level systems in C (right now, a SQLite clone with its own B-tree and SQL parser) and full-stack apps on AWS.</p>
+          <p class="reveal">Before I wrote code for a living I ran café floors for five years, which is where I learned to stay calm when everything breaks at once.</p>
+        </div>
+        <ul class="about__facts reveal">
+          <li><span class="k">Education</span> RMIT B.Sc. Computer Science</li>
+          <li><span class="k">Based in</span> Melbourne, Australia</li>
+          <li><span class="k">Languages</span> English, Greek</li>
+          <li><span class="k">Award</span> People's Choice, Boeing Hackathon</li>
         </ul>
       </div>
     </section>
 
-    <!-- ───────────────── PROJECTS ───────────────── -->
-    <section id="projects" class="section">
-      <h2 class="section__title reveal"><span class="section__num">02</span> Projects</h2>
-      <div class="grid">
-
-        <a class="card reveal" href="https://github.com/JonathanTheofilas/sqlite-clone" target="_blank" rel="noopener">
-          <div class="card__head">
-            <h3>SQLite Clone</h3><span class="card__arrow">↗</span>
-          </div>
-          <p>A database engine built from scratch in C — B-tree storage, SQL parsing, and transaction handling.</p>
-          <div class="tags"><span>C</span><span>Databases</span><span>Systems</span></div>
-        </a>
-
-        <a class="card reveal" href="https://github.com/JonathanTheofilas/BPE-Tokeniser" target="_blank" rel="noopener">
-          <div class="card__head">
-            <h3>BPE Tokeniser</h3><span class="card__arrow">↗</span>
-          </div>
-          <p>An educational Byte Pair Encoding implementation trained over a multilingual corpus.</p>
-          <div class="tags"><span>Python</span><span>NLP</span><span>ML</span></div>
-        </a>
-
-        <a class="card reveal" href="https://github.com/JonathanTheofilas/AWS-Music-Subscription-System" target="_blank" rel="noopener">
-          <div class="card__head">
-            <h3>AWS Music Platform</h3><span class="card__arrow">↗</span>
-          </div>
-          <p>Full-stack music subscription system on AWS with DynamoDB, S3, and advanced search.</p>
-          <div class="tags"><span>AWS</span><span>DynamoDB</span><span>S3</span></div>
-        </a>
-
-        <a class="card reveal" href="https://github.com/JonathanTheofilas/Langtons-Bug-Farm" target="_blank" rel="noopener">
-          <div class="card__head">
-            <h3>Langton's Bug Farm</h3><span class="card__arrow">↗</span>
-          </div>
-          <p>A cellular-automata simulator — Langton's Ant, Turmites, and custom Turing machines with real-time visualisation.</p>
-          <div class="tags"><span>JavaScript</span><span>Simulation</span></div>
-        </a>
-
-        <a class="card reveal" href="https://github.com/JonathanTheofilas/AirBnB-Clone---Property-Booking-Platform" target="_blank" rel="noopener">
-          <div class="card__head">
-            <h3>Property Booking Platform</h3><span class="card__arrow">↗</span>
-          </div>
-          <p>A Node.js / MongoDB full-stack rental application handling thousands of listings.</p>
-          <div class="tags"><span>Node.js</span><span>MongoDB</span><span>Express</span></div>
-        </a>
-
-        <div class="card card--static reveal">
-          <div class="card__head">
-            <h3>GameSight AR Visualiser</h3>
-          </div>
-          <p>Augmented-reality app for the Meta Quest 3, built for RMIT's RoboCup team.</p>
-          <div class="tags"><span>Unity</span><span>AR</span><span>C#</span></div>
-        </div>
-
+    <!-- ===================== SKILLS ===================== -->
+    <section class="section container" id="skills">
+      <div class="section__head">
+        <span class="section__num">02</span>
+        <h2 class="section__title reveal">Skills</h2>
       </div>
-    </section>
-
-    <!-- ───────────────── SKILLS ───────────────── -->
-    <section id="skills" class="section">
-      <h2 class="section__title reveal"><span class="section__num">03</span> Skills</h2>
-      <div class="skills reveal">
-        <div class="skills__group">
-          <h4>Languages</h4>
-          <div class="tags tags--lg"><span>Python</span><span>C</span><span>C++</span><span>Java</span><span>JavaScript</span><span>TypeScript</span></div>
+      <div class="skills">
+        <div class="skills__group reveal">
+          <h3>Languages</h3>
+          <ul class="tags tags--lg"><li>Python</li><li>C</li><li>C++</li><li>Java</li><li>JavaScript</li><li>TypeScript</li></ul>
         </div>
-        <div class="skills__group">
-          <h4>Cloud &amp; Data</h4>
-          <div class="tags tags--lg"><span>AWS</span><span>Lambda</span><span>DynamoDB</span><span>S3</span><span>MongoDB</span><span>MySQL</span></div>
+        <div class="skills__group reveal">
+          <h3>Cloud &amp; data</h3>
+          <ul class="tags tags--lg"><li>AWS</li><li>Lambda</li><li>DynamoDB</li><li>S3</li><li>MongoDB</li><li>MySQL</li></ul>
         </div>
-        <div class="skills__group">
-          <h4>Frameworks &amp; Tools</h4>
-          <div class="tags tags--lg"><span>React</span><span>Node.js</span><span>Express</span><span>Docker</span><span>Unity</span><span>Git</span></div>
+        <div class="skills__group reveal">
+          <h3>Frameworks &amp; tools</h3>
+          <ul class="tags tags--lg"><li>React</li><li>Node.js</li><li>Express</li><li>Docker</li><li>Unity</li><li>Git</li></ul>
         </div>
       </div>
     </section>
 
-    <!-- ───────────────── CONTACT ───────────────── -->
-    <section id="contact" class="section section--contact">
-      <h2 class="section__title reveal"><span class="section__num">04</span> Get in touch</h2>
-      <p class="contact__lead reveal">Open to graduate roles and interesting collaborations.</p>
+    <!-- ===================== WORKS (active, horizontal) ===================== -->
+    <section class="section works container" id="works">
+      <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title reveal">In progress</h2>
+      </div>
+      <div class="works__viewport">
+        <div class="works__track" id="works-track">
+          <article class="works__card card">
+            <div class="card__head">
+              <h3 class="card__title" data-scramble>BPE tokeniser</h3>
+            </div>
+            <p class="card__blurb">A byte pair encoding tokeniser in Python, trained over a multilingual corpus, built to learn how language models split text into tokens.</p>
+            <ul class="tags"><li>Python</li><li>NLP</li></ul>
+            <a class="card__link" href="https://github.com/JonathanTheofilas/BPE-Tokeniser" target="_blank" rel="noopener" aria-label="BPE tokeniser on GitHub" data-cursor="View"></a>
+          </article>
+          <article class="works__card card">
+            <div class="card__head">
+              <h3 class="card__title" data-scramble>Langton's bug farm</h3>
+            </div>
+            <p class="card__blurb">A cellular automata sandbox in JavaScript. Langton's Ant, turmites, and custom Turing machines, all drawn in real time.</p>
+            <ul class="tags"><li>JavaScript</li><li>Simulation</li></ul>
+            <a class="card__link" href="https://github.com/JonathanTheofilas/Langtons-Bug-Farm" target="_blank" rel="noopener" aria-label="Langton's bug farm on GitHub" data-cursor="View"></a>
+          </article>
+          <article class="works__card card">
+            <div class="card__head">
+              <h3 class="card__title" data-scramble>This site</h3>
+            </div>
+            <p class="card__blurb">A WebGL portfolio built with Three.js, GSAP and Lenis. The globe, the grain, and the project tiles are all generated in shaders.</p>
+            <ul class="tags"><li>Three.js</li><li>GSAP</li><li>WebGL</li></ul>
+            <a class="card__link" href="https://github.com/JonathanTheofilas/JonathanTheofilas.github.io" target="_blank" rel="noopener" aria-label="Source of this site on GitHub" data-cursor="View"></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COMPLETED (WebGL distortion grid) ===================== -->
+    <section class="section container" id="projects">
+      <div class="section__head">
+        <span class="section__num">04</span>
+        <h2 class="section__title reveal">Projects</h2>
+      </div>
+      <div class="grid" id="project-grid">
+        <a class="grid__tile tile" data-seed="17" href="https://github.com/JonathanTheofilas/sqlite-clone" target="_blank" rel="noopener" data-cursor="View">
+          <div class="tile__meta">
+            <h3 class="tile__title" data-scramble>SQLite clone</h3>
+            <p class="tile__blurb">A database engine written from scratch in C: B-tree storage, a hand-written SQL parser, and transactions.</p>
+            <ul class="tags"><li>C</li><li>Databases</li><li>Systems</li></ul>
+          </div>
+        </a>
+        <a class="grid__tile tile" data-seed="42" href="https://github.com/JonathanTheofilas/AWS-Music-Subscription-System" target="_blank" rel="noopener" data-cursor="View">
+          <div class="tile__meta">
+            <h3 class="tile__title" data-scramble>AWS music platform</h3>
+            <p class="tile__blurb">A music subscription app on AWS. DynamoDB for the catalogue, S3 for media, and search that returns what you asked for.</p>
+            <ul class="tags"><li>AWS</li><li>DynamoDB</li><li>S3</li></ul>
+          </div>
+        </a>
+        <a class="grid__tile tile" data-seed="73" href="https://github.com/JonathanTheofilas/AirBnB-Clone---Property-Booking-Platform" target="_blank" rel="noopener" data-cursor="View">
+          <div class="tile__meta">
+            <h3 class="tile__title" data-scramble>Property booking platform</h3>
+            <p class="tile__blurb">A property rental app built on Node and MongoDB, handling listings, bookings, and the messy edge cases that come with both.</p>
+            <ul class="tags"><li>Node.js</li><li>MongoDB</li><li>Express</li></ul>
+          </div>
+        </a>
+        <div class="grid__tile tile" data-seed="91" data-cursor="AR">
+          <div class="tile__meta">
+            <h3 class="tile__title" data-scramble>GameSight AR</h3>
+            <p class="tile__blurb">An augmented reality app for the Meta Quest 3, built for RMIT's RoboCup team to see what the robots see.</p>
+            <ul class="tags"><li>Unity</li><li>AR</li><li>C#</li></ul>
+          </div>
+        </div>
+        <div class="grid__tile tile" data-seed="28" data-cursor="ML">
+          <div class="tile__meta">
+            <h3 class="tile__title" data-scramble>Data intelligence project</h3>
+            <p class="tile__blurb">A Python analytics pipeline that reached 92% prediction accuracy on its test set.</p>
+            <ul class="tags"><li>Python</li><li>ML</li><li>Pandas</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="section contact container" id="contact">
+      <p class="eyebrow reveal">Open to graduate roles</p>
+      <h2 class="contact__title reveal">Let's build<br />something.</h2>
       <div class="contact__links reveal">
-        <a class="btn btn--solid" href="https://www.linkedin.com/in/jonathan-theofilas-9454732b7" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a class="btn btn--ghost" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn btn--solid" href="https://www.linkedin.com/in/jonathan-theofilas-9454732b7" target="_blank" rel="noopener" data-magnetic>
+          LinkedIn
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <a class="btn" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener" data-magnetic>
+          GitHub
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>© <span id="year"></span> Jonathan Theofilas · Built with HTML &amp; CSS</p>
+  <footer class="site-footer">
+    <span>© <span id="year">2026</span> Jonathan Theofilas</span>
+    <span class="mono">Melbourne · built with Three.js + GSAP</span>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
