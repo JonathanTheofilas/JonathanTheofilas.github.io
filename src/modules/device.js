@@ -27,6 +27,10 @@ export const webglOK = (() => {
 // Master switch for the heavy interactive layer.
 export const interactive = !reducedMotion && finePointer;
 
+// One quality knob (rain count, optional raymarch) so scaling stays central.
+const lowMem = (navigator.deviceMemory || 8) <= 4;
+export const quality = coarsePointer || lowMem ? "low" : "high";
+
 export const device = {
   reducedMotion,
   finePointer,

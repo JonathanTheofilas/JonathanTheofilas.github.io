@@ -45,6 +45,7 @@
   <main id="top">
     <!-- ===================== LANDING ===================== -->
     <section class="landing" id="landing" aria-label="Intro">
+      <div class="hero-anchor" id="hero-anchor" aria-hidden="true"></div>
       <span class="landing__index mono">01 / signal</span>
       <p class="landing__scroll mono">scroll <span aria-hidden="true">↓</span></p>
     </section>
@@ -107,23 +108,61 @@
           </div>
         </div>
       </div>
+
+      <div class="section__head section__head--sub">
+        <span class="section__num">02b</span>
+        <h3 class="section__subtitle reveal">Experience</h3>
+        <span class="section__note mono">shown without proprietary detail</span>
+      </div>
+      <div class="grid grid--exp" id="experience-grid">
+        <div class="grid__tile tile" data-seed="33" data-static>
+          <div class="tile__meta">
+            <h3 class="tile__title reveal">AI call-handling platform</h3>
+            <p class="tile__blurb">Backend and frontend for a multi-tenant AI call platform: telephony, conversational AI, and voice synthesis with real-time call state.</p>
+            <ul class="tags"><li>FastAPI</li><li>PostgreSQL</li><li>React/TS</li><li>Azure</li><li>Twilio</li><li class="tag--badge">Professional</li></ul>
+          </div>
+        </div>
+        <div class="grid__tile tile" data-seed="46" data-static>
+          <div class="tile__meta">
+            <h3 class="tile__title reveal">Multi-agent AI revenue automation</h3>
+            <p class="tile__blurb">A platform of LLM agents for enrichment, outreach sequencing, and reply classification, wired to CRM and finance APIs with approval workflows.</p>
+            <ul class="tags"><li>FastAPI</li><li>PostgreSQL</li><li>React</li><li>LLM agents</li><li class="tag--badge">Professional</li></ul>
+          </div>
+        </div>
+        <div class="grid__tile tile" data-seed="61" data-static>
+          <div class="tile__meta">
+            <h3 class="tile__title reveal">Telecom billing automation</h3>
+            <p class="tile__blurb">A Python pipeline turning carrier billing exports into branded multi-format reports, with validation gates and workflow automation.</p>
+            <ul class="tags"><li>Python</li><li>Data pipeline</li><li>Automation</li><li class="tag--badge">Professional</li></ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- ===================== CONNECT ===================== -->
-    <section class="section connect container" id="connect">
-      <span class="section__num reveal">03</span>
-      <h2 class="connect__name reveal">Jonathan<br />Theofilas</h2>
-      <p class="connect__line reveal">Computer science, Melbourne. Systems, cloud, and AR.</p>
-      <div class="connect__links reveal">
-        <a class="btn btn--solid" href="https://www.linkedin.com/in/jonathan-theofilas-9454732b7" target="_blank" rel="noopener" data-magnetic>
-          LinkedIn
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </a>
-        <a class="btn" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener" data-magnetic>
-          GitHub
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </a>
+    <!-- ===================== CONNECT (under the umbrella) ===================== -->
+    <section class="section connect" id="connect">
+      <div class="connect-anchor" id="connect-anchor" aria-hidden="true"></div>
+      <div class="connect__grid container">
+        <div class="connect__side connect__side--left reveal">
+          <p class="connect__label mono">who</p>
+          <h2 class="connect__name">Jonathan<br />Theofilas</h2>
+          <a class="btn btn--solid" href="https://www.linkedin.com/in/jonathan-theofilas-9454732b7" target="_blank" rel="noopener" data-magnetic>
+            LinkedIn
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+        <div class="connect__side connect__side--right reveal">
+          <p class="connect__label mono">what</p>
+          <ul class="connect__skills">
+            <li>Python</li><li>C / C++</li><li>TypeScript</li><li>AWS</li><li>React</li><li>Node</li><li>Docker</li>
+          </ul>
+          <a class="btn" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener" data-magnetic>
+            GitHub
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
       </div>
+      <p class="connect__shelter mono reveal">— sheltered from the storm —</p>
     </section>
   </main>
 

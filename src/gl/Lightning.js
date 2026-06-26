@@ -54,6 +54,7 @@ export class Lightning {
         uMouse: { value: new Vector2(0.5, 0.5) },
         uSpeed: { value: 0 },
         uScroll: { value: 0 },
+        uFlash: { value: 0 },
       },
       vertexShader: vert,
       fragmentShader: lightningFrag,
@@ -163,6 +164,7 @@ export class Lightning {
     du.uTime.value = stage.time;
     du.uMouse.value.copy(this.mouseUv);
     du.uSpeed.value = this._speed;
+    du.uFlash.value = stage.flash;
     const sc = Math.min(Math.abs(stage.scrollVel) * 0.05, 1);
     du.uScroll.value += (sc - du.uScroll.value) * 0.1;
   }

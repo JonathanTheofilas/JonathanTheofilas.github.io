@@ -24,6 +24,9 @@ export class Stage {
     this.time = 0;
     this.scrollVel = 0;
 
+    // shared "flash" bus: lightning strikes spike it, layers read it, it decays
+    this.flash = 0;
+
     this.renderer = new WebGLRenderer({
       canvas,
       antialias: true,
@@ -31,6 +34,9 @@ export class Stage {
       powerPreference: "high-performance",
     });
     this.renderer.setClearColor(0x000000, 0);
+    // we manage clearing ourselves so perspective passes can composite over the
+    // ortho background in the same canvas
+    this.renderer.autoClear = false;
 
     this.scene = new Scene();
     this.camera = new OrthographicCamera(-1, 1, 1, -1, 0.1, 1000);
@@ -82,6 +88,24 @@ export class Stage {
     this.scrollVel = v;
   }
 
+  // Render a perspective sub-scene scissored to a DOM element's box (CSS px;
+  // Three applies pixelRatio internally). Composites over the existing color;
+  // clears depth only. Returns false if the anchor is off-screen.
+  renderPerspective(scene, camera, el) {
+    const r = el.getBoundingClientRect();
+    if (r.width < 1 || r.bottom < 0 || r.top > this.size.h) return false;
+    const x = r.left;
+    const y = this.size.h - r.bottom; // DOM y-down -> GL y-up
+    this.renderer.setViewport(x, y, r.width, r.height);
+    this.renderer.setScissor(x, y, r.width, r.height);
+    this.renderer.setScissorTest(true);
+    this.renderer.clearDepth();
+    camera.aspect = r.width / r.height;
+    camera.updateProjectionMatrix();
+    this.renderer.render(scene, camera);
+    return true;
+  }
+
   _tick = (time, deltaMs) => {
     const dt = Math.min(deltaMs / 1000, 0.05);
     this.time += dt;
@@ -90,9 +114,26 @@ export class Stage {
     this.pointerSmooth.x += (this.pointer.x - this.pointerSmooth.x) * 0.08;
     this.pointerSmooth.y += (this.pointer.y - this.pointerSmooth.y) * 0.08;
 
+    // decay the flash bus (dt-independent)
+    this.flash += (0 - this.flash) * (1 - Math.pow(0.0001, dt));
+    if (this.flash < 0.001) this.flash = 0;
+
     for (const l of this.layers) if (l.update) l.update(dt, this);
 
+    // full-frame reset, then one clear
+    this.renderer.setScissorTest(false);
+    this.renderer.setViewport(0, 0, this.size.w, this.size.h);
+    this.renderer.clear(true, true, true);
+
+    // ortho pass (lightning bg, bolts, project grid all share this.scene)
     this.renderer.render(this.scene, this.camera);
+
+    // custom perspective passes (storm-sphere, umbrella) composite on top
+    for (const l of this.layers) if (l.render) l.render(this);
+
+    // leave the canvas in a clean full-viewport state
+    this.renderer.setScissorTest(false);
+    this.renderer.setViewport(0, 0, this.size.w, this.size.h);
   };
 
   start() {

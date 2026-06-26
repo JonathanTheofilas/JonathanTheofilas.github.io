@@ -28,10 +28,11 @@ export class ProjectGrid {
 
     tileEls.forEach((el) => {
       const seed = parseFloat(el.dataset.seed) || 1;
+      const isStatic = el.hasAttribute("data-static");
       const material = new ShaderMaterial({
         uniforms: {
           uSeed: { value: seed },
-          uHover: { value: finePointer ? 0 : 0.5 },
+          uHover: { value: isStatic ? 0.28 : finePointer ? 0 : 0.5 },
           uTime: { value: 0 },
           uMouse: { value: new Vector2(0.5, 0.5) },
           uAspect: { value: 1 },
@@ -50,7 +51,7 @@ export class ProjectGrid {
 
       const tile = { el, mesh, material };
       this.tiles.push(tile);
-      if (finePointer) this._bind(tile);
+      if (finePointer && !isStatic) this._bind(tile);
     });
   }
 

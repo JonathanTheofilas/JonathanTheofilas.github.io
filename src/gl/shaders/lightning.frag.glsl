@@ -9,6 +9,7 @@ uniform vec2 uRes;
 uniform vec2 uMouse;
 uniform float uSpeed;
 uniform float uScroll;
+uniform float uFlash;
 
 varying vec2 vUv;
 
@@ -49,11 +50,15 @@ void main() {
   float core = pow(fil, 3.0);
   float glow = smoothstep(0.0, 0.7, t) * 0.6;
 
+  // a strike floods the scene with a brief electric wash + brighter veins
+  float flash = clamp(uFlash, 0.0, 1.5);
+
   vec3 col = BG;
-  col += grid * BLUE;
+  col += grid * BLUE * (1.0 + flash);
   col += glow * BLUE;
-  col += fil * CYAN;
-  col += core * CORE;
+  col += fil * CYAN * (1.0 + flash);
+  col += core * CORE * (1.0 + flash * 2.0);
+  col += BLUE * flash * 0.12; // ambient blue wash on strike
 
   gl_FragColor = vec4(col, 1.0);
 }
