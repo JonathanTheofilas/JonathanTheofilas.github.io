@@ -1,4 +1,4 @@
-// Capability flags. Every interaction/WebGL module reads from here so fallbacks
+// Capability flags. Every interaction module reads from here so fallbacks
 // are decided in exactly one place.
 
 const mq = (q) => window.matchMedia(q);
@@ -11,23 +11,10 @@ export const finePointer =
 
 export const coarsePointer = !finePointer;
 
-// WebGL probe (cheap, runs once).
-export const webglOK = (() => {
-  try {
-    const c = document.createElement("canvas");
-    return !!(
-      window.WebGLRenderingContext &&
-      (c.getContext("webgl") || c.getContext("experimental-webgl"))
-    );
-  } catch {
-    return false;
-  }
-})();
-
 // Master switch for the heavy interactive layer.
 export const interactive = !reducedMotion && finePointer;
 
-// One quality knob (rain count, optional raymarch) so scaling stays central.
+// One quality knob (variant-cycle rate, cursor trail) so scaling stays central.
 const lowMem = (navigator.deviceMemory || 8) <= 4;
 export const quality = coarsePointer || lowMem ? "low" : "high";
 
@@ -35,6 +22,5 @@ export const device = {
   reducedMotion,
   finePointer,
   coarsePointer,
-  webglOK,
   interactive,
 };

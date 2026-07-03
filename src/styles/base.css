@@ -1,29 +1,35 @@
 /* =============================================================
    Design tokens — three layers: primitive -> semantic -> component
-   Palette: deep navy base, white text, electric blue/cyan accent.
+   Palette: near-black violet base, white text, coral #FA604F ("shadows")
+   and indigo #463CEF ("highlights") — the Hand of God gradient.
    Colors as HSL channel triplets so alpha composes with hsl(var(--t) / a).
    ============================================================= */
 
 :root {
   /* ---------- LAYER 1: PRIMITIVES ---------- */
 
-  /* navy neutrals (single cool family) */
-  --c-ink-900: 224 44% 4%;    /* base background #06080f */
-  --c-ink-800: 226 38% 8%;    /* #0b0e1a */
-  --c-ink-700: 226 36% 12%;   /* elevated surface #101426 */
-  --c-ink-600: 224 30% 18%;
-  --c-ink-500: 220 26% 26%;   /* borders / lines */
-  --c-ink-400: 220 16% 46%;
-  --c-ink-300: 220 16% 68%;   /* muted text */
-  --c-ink-100: 222 44% 96%;   /* default text #eef2fb */
-  --c-ink-050: 220 60% 99%;
+  /* violet-tinted neutrals (single cool family) */
+  --c-ink-900: 250 24% 4%;    /* base background #0a0813 */
+  --c-ink-800: 250 22% 8%;
+  --c-ink-700: 250 20% 12%;   /* elevated surface */
+  --c-ink-600: 250 16% 18%;
+  --c-ink-500: 248 14% 27%;   /* borders / lines */
+  --c-ink-400: 248 10% 46%;
+  --c-ink-300: 248 12% 68%;   /* muted text */
+  --c-ink-100: 250 40% 96%;   /* default text */
+  --c-ink-050: 250 60% 99%;
 
-  /* electric accent */
-  --c-elec-300: 204 94% 82%;  /* pale cyan */
-  --c-elec-400: 199 92% 60%;  /* cyan #38bdf8 */
-  --c-elec-500: 217 91% 60%;  /* blue #3b82f6 (main accent) */
-  --c-elec-600: 221 83% 53%;
-  --c-elec-core: 214 90% 93%; /* white-blue #dbeafe */
+  /* coral accent — "shadows" end of the artwork gradient */
+  --c-coral-300: 8 96% 78%;
+  --c-coral-400: 7 95% 71%;
+  --c-coral-500: 6 94% 65%;   /* #fa604f */
+  --c-coral-600: 5 72% 52%;
+
+  /* indigo accent — "highlights" end */
+  --c-indigo-300: 243 90% 76%;
+  --c-indigo-400: 243 87% 68%;
+  --c-indigo-500: 243 85% 59%; /* #463cef */
+  --c-indigo-600: 244 74% 48%;
 
   /* typography */
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
@@ -83,6 +89,7 @@
   --z-nav: 100;
   --z-grain: 300;
   --z-cursor: 400;
+  --z-preloader: 500;
 
   /* ---------- LAYER 2: SEMANTIC ---------- */
   --bg: hsl(var(--c-ink-900));
@@ -94,16 +101,25 @@
   --text: hsl(var(--c-ink-100));
   --text-strong: hsl(var(--c-ink-050));
   --text-muted: hsl(var(--c-ink-300));
-  --accent: hsl(var(--c-elec-500));
-  --accent-bright: hsl(var(--c-elec-400));
-  --accent-dim: hsl(var(--c-elec-600));
+  --accent: hsl(var(--c-coral-500));
+  --accent-bright: hsl(var(--c-coral-400));
+  --accent-dim: hsl(var(--c-coral-600));
+  --accent-2: hsl(var(--c-indigo-500));
+  --accent-2-bright: hsl(var(--c-indigo-400));
   --on-accent: hsl(var(--c-ink-900));
-  --focus-ring: hsl(var(--c-elec-400) / 0.85);
+  --focus-ring: hsl(var(--c-coral-400) / 0.85);
 
-  /* navy-tinted shadows + electric glow */
+  /* the artwork gradient, indigo -> coral */
+  --grad-hands: linear-gradient(
+    90deg,
+    hsl(var(--c-indigo-500)),
+    hsl(var(--c-coral-500))
+  );
+
+  /* violet-tinted shadows + coral glow */
   --shadow-sm: 0 2px 8px hsl(var(--c-ink-900) / 0.6);
-  --shadow-md: 0 14px 34px -12px hsl(224 60% 2% / 0.8);
-  --shadow-glow: 0 0 38px -6px hsl(var(--c-elec-400) / 0.5);
+  --shadow-md: 0 14px 34px -12px hsl(250 40% 2% / 0.8);
+  --shadow-glow: 0 0 38px -6px hsl(var(--c-coral-500) / 0.45);
 }
 
 /* ---------- RESET ---------- */
@@ -139,7 +155,7 @@ body {
   overflow-x: hidden;
 }
 
-/* faint electric ambient wash (only matters where the canvas is absent) */
+/* faint two-tone ambient wash: indigo above, coral below */
 body::before {
   content: "";
   position: fixed;
@@ -147,8 +163,8 @@ body::before {
   z-index: var(--z-canvas);
   pointer-events: none;
   background:
-    radial-gradient(60rem 45rem at 80% -10%, hsl(var(--c-elec-500) / 0.06), transparent 60%),
-    radial-gradient(50rem 40rem at -10% 110%, hsl(var(--c-elec-400) / 0.05), transparent 60%);
+    radial-gradient(60rem 45rem at 82% -12%, hsl(var(--c-indigo-500) / 0.07), transparent 60%),
+    radial-gradient(52rem 40rem at -12% 112%, hsl(var(--c-coral-500) / 0.05), transparent 60%);
 }
 
 /* grain overlay */
@@ -182,8 +198,8 @@ button {
 }
 
 ::selection {
-  background: hsl(var(--c-elec-400) / 0.9);
-  color: var(--on-accent);
+  background: hsl(var(--c-indigo-500) / 0.9);
+  color: hsl(var(--c-ink-050));
 }
 
 :focus-visible {
@@ -211,11 +227,19 @@ p {
   font-variant-numeric: tabular-nums;
 }
 
+/* gradient text utility (section numbers, ornaments) */
+.grad-text {
+  background: var(--grad-hands);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .skip-link {
   position: absolute;
   left: var(--sp-2);
   top: -3rem;
-  z-index: calc(var(--z-cursor) + 1);
+  z-index: calc(var(--z-preloader) + 1);
   background: var(--accent-bright);
   color: var(--on-accent);
   padding: 0.5rem 0.9rem;

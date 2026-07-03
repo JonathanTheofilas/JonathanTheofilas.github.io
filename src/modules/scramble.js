@@ -3,7 +3,7 @@
 
 import { reducedMotion } from "./device.js";
 
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>_=*";
+const CHARS = "#%*+-=:·./\\<>x01"; // the artwork's own glyph vocabulary
 
 function scramble(el) {
   const final = el.dataset.text;

@@ -1,5 +1,5 @@
 // Smooth scroll (Lenis) bridged to GSAP ScrollTrigger through a single ticker.
-// Exposes a live scroll velocity for the WebGL layer to read.
+// Exposes a live scroll velocity for other modules (skew) to read.
 
 import Lenis from "lenis";
 import { gsap } from "gsap";

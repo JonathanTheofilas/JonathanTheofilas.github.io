@@ -7,7 +7,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
   <style>
-    :root { --bg:#06080f; --text:#eef2fb; --muted:#9aa7c2; --accent:#38bdf8; }
+    :root { --bg:#0a0813; --text:#f2f0fb; --muted:#a49fbe; --accent:#fa604f; --accent-2:#463cef; }
     * { margin:0; box-sizing:border-box; }
     body {
       min-height:100dvh; display:grid; place-content:center; text-align:center;
@@ -15,10 +15,14 @@
       font-family:"Space Grotesk", system-ui, sans-serif;
     }
     .code { font-size:clamp(4rem,18vw,9rem); font-weight:700; letter-spacing:-.04em; line-height:.9; }
-    .code span { color:var(--accent); }
+    .code span {
+      background:linear-gradient(90deg, var(--accent-2), var(--accent));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .glyphs { font-family:"JetBrains Mono", monospace; letter-spacing:.5em; color:var(--muted); font-size:.85rem; }
     p { color:var(--muted); font-family:"JetBrains Mono", monospace; font-size:.95rem; }
     a {
-      justify-self:center; margin-top:.5rem; color:#0e0e14; background:var(--accent);
+      justify-self:center; margin-top:.5rem; color:#0a0813; background:var(--accent);
       text-decoration:none; font-weight:600; padding:.75rem 1.4rem; border-radius:999px;
       transition:transform .2s ease;
     }
@@ -27,6 +31,7 @@
 </head>
 <body>
   <div class="code">4<span>0</span>4</div>
+  <div class="glyphs" aria-hidden="true">· : * # * : ·</div>
   <p>This page took a wrong turn.</p>
   <a href="/">Back to home</a>
 </body>

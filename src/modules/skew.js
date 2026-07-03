@@ -1,5 +1,5 @@
 // Scroll-velocity skew on text elements — the "physicality" tell. Applied only
-// to DOM text (not the .tile boxes) so it never disturbs the WebGL rect sync.
+// to DOM text (not the .tile boxes) so tile layout stays stable.
 
 import { gsap } from "gsap";
 import { scrollState } from "./scroll.js";

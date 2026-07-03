@@ -8,7 +8,9 @@ import { initSkew } from "./modules/skew.js";
 import { initCursor } from "./modules/cursor.js";
 import { initMagnetic } from "./modules/magnetic.js";
 import { initScramble } from "./modules/scramble.js";
-import { initGL } from "./gl/index.js";
+import { initTiles } from "./modules/tiles.js";
+import { initPreloader } from "./modules/preloader.js";
+import { initHands } from "./hands/index.js";
 
 document.documentElement.classList.add("js-ready");
 
@@ -27,9 +29,12 @@ function boot() {
   initCursor();
   initMagnetic();
   initScramble();
+  initTiles();
 
-  // WebGL (no-ops if unsupported / reduced motion).
-  initGL();
+  // Hero hands + the load-in sequence. The preloader waits for the hands to
+  // prerender (with a timeout) before lifting.
+  const hands = initHands();
+  initPreloader({ ready: hands.ready });
 }
 
 if (document.readyState === "loading") {

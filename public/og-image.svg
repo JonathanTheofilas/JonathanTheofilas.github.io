@@ -1,12 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#06080f"/>
-  <radialGradient id="g" cx="82%" cy="6%" r="80%">
-    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.22"/>
-    <stop offset="60%" stop-color="#06080f" stop-opacity="0"/>
+  <rect width="1200" height="630" fill="#0a0813"/>
+  <radialGradient id="gi" cx="82%" cy="6%" r="80%">
+    <stop offset="0%" stop-color="#463cef" stop-opacity="0.25"/>
+    <stop offset="60%" stop-color="#0a0813" stop-opacity="0"/>
   </radialGradient>
-  <rect width="1200" height="630" fill="url(#g)"/>
-  <path d="M1010 90 935 235h70l-12 95 96-140h-66l13-90z" fill="#38bdf8" opacity="0.9"/>
-  <text x="90" y="300" fill="#eef2fb" font-family="'Space Grotesk',Inter,sans-serif" font-size="96" font-weight="700" letter-spacing="-3">Selected work</text>
-  <text x="92" y="362" fill="#9aa7c2" font-family="'JetBrains Mono',monospace" font-size="30">systems · cloud · AR</text>
-  <text x="92" y="410" fill="#38bdf8" font-family="'JetBrains Mono',monospace" font-size="26">jonathantheofilas.github.io</text>
+  <radialGradient id="gc" cx="8%" cy="100%" r="70%">
+    <stop offset="0%" stop-color="#fa604f" stop-opacity="0.16"/>
+    <stop offset="60%" stop-color="#0a0813" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#463cef"/>
+    <stop offset="100%" stop-color="#fa604f"/>
+  </linearGradient>
+  <rect width="1200" height="630" fill="url(#gi)"/>
+  <rect width="1200" height="630" fill="url(#gc)"/>
+  <text x="920" y="240" fill="url(#grad)" font-family="'JetBrains Mono',monospace" font-size="52" letter-spacing="10">·:*#*:·</text>
+  <text x="90" y="300" fill="#f2f0fb" font-family="'Space Grotesk',Inter,sans-serif" font-size="88" font-weight="700" letter-spacing="-3">Jonathan Theofilas</text>
+  <text x="92" y="362" fill="#a49fbe" font-family="'JetBrains Mono',monospace" font-size="30">systems · cloud · AR</text>
+  <text x="92" y="410" fill="#fa604f" font-family="'JetBrains Mono',monospace" font-size="26">jonathantheofilas.github.io</text>
 </svg>

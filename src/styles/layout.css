@@ -2,13 +2,6 @@
    Layout — nav, landing, work grid, connect, footer
    ============================================================= */
 
-#gl {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-canvas);
-  pointer-events: none;
-}
-
 main,
 .site-nav,
 .site-footer {
@@ -40,6 +33,9 @@ main,
   place-items: center;
   width: 2.1rem;
   height: 2.1rem;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  line-height: 1;
   color: var(--accent-bright);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -47,10 +43,6 @@ main,
   backdrop-filter: blur(8px);
   transition: border-color var(--dur-fast) var(--ease-out-quart),
     color var(--dur-fast) var(--ease-out-quart);
-}
-.site-nav__mark svg {
-  width: 1.05rem;
-  height: 1.05rem;
 }
 .site-nav__mark:hover {
   border-color: var(--accent-bright);
@@ -76,7 +68,7 @@ main,
   bottom: -2px;
   width: 100%;
   height: 1px;
-  background: var(--accent-bright);
+  background: var(--grad-hands);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--dur-med) var(--ease-out-expo);
@@ -98,15 +90,7 @@ main,
   flex-direction: column;
   justify-content: flex-end;
   padding: clamp(1.5rem, 5vw, 3rem);
-}
-.hero-anchor {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(48vmin, 540px);
-  aspect-ratio: 1 / 1;
-  pointer-events: none;
+  overflow: hidden;
 }
 .landing__index {
   position: absolute;
@@ -118,8 +102,33 @@ main,
   text-transform: uppercase;
   color: hsl(var(--c-ink-300) / 0.5);
 }
+.landing__intro {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-bottom: var(--sp-2);
+  pointer-events: none;
+}
+.landing__title {
+  font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: 0.98;
+}
+.landing__role {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
 .landing__scroll {
-  align-self: center;
+  position: absolute;
+  bottom: clamp(1.5rem, 5vw, 3rem);
+  left: 50%;
+  transform: translateX(-50%);
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -127,8 +136,8 @@ main,
   animation: floaty 2.6s var(--ease-in-out) infinite;
 }
 @keyframes floaty {
-  0%, 100% { transform: translateY(0); opacity: 0.7; }
-  50% { transform: translateY(5px); opacity: 1; }
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.7; }
+  50% { transform: translate(-50%, 5px); opacity: 1; }
 }
 
 /* ---------- SECTIONS ---------- */
@@ -144,8 +153,11 @@ main,
 .section__num {
   font-family: var(--font-mono);
   font-size: var(--fs-label);
-  color: var(--accent-bright);
   font-variant-numeric: tabular-nums;
+  background: var(--grad-hands);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .section__title {
   font-size: var(--fs-h2);
@@ -206,7 +218,7 @@ main,
   border-color: var(--accent-bright) !important;
 }
 
-/* ---------- CONNECT (under the umbrella) ---------- */
+/* ---------- CONNECT ---------- */
 .connect {
   position: relative;
   min-height: 100dvh;
@@ -215,17 +227,6 @@ main,
   justify-content: center;
   padding-block: clamp(5rem, 12vw, 10rem);
 }
-/* the umbrella renders into this box (canopy spanning the top, handle down the
-   centre gutter); content sits beneath it */
-.connect-anchor {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -54%);
-  width: min(92vw, 880px);
-  height: min(86vh, 680px);
-  pointer-events: none;
-}
 .connect__grid {
   position: relative;
   z-index: 1;
@@ -233,17 +234,11 @@ main,
   grid-template-columns: 1fr 1fr;
   gap: clamp(2rem, 12vw, 9rem);
   align-items: center;
-  margin-top: clamp(6rem, 16vh, 11rem); /* sit below the canopy arc */
 }
 .connect__side {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
-  /* legibility scrim so text reads over the storm/rain */
-  padding: var(--sp-3);
-  border-radius: var(--radius-md);
-  background: radial-gradient(120% 120% at 50% 50%, hsl(var(--c-ink-900) / 0.78), hsl(var(--c-ink-900) / 0.32));
-  backdrop-filter: blur(3px);
 }
 .connect__side--left {
   align-items: flex-end;
@@ -266,7 +261,6 @@ main,
   line-height: 0.96;
   letter-spacing: var(--tracking-tight);
 }
-/* the left column (name + LinkedIn) sits smaller under the canopy */
 .connect__side--left .btn {
   padding: 0.6rem 1.05rem;
   font-size: 0.85rem;
@@ -283,20 +277,27 @@ main,
 .connect__side--right .connect__skills {
   justify-content: flex-start;
 }
-.connect__shelter {
+
+/* ASCII ornament rule between connect grid and the footer edge */
+.ascii-rule {
   position: relative;
   z-index: 1;
   text-align: center;
   margin-top: var(--sp-5);
+  font-family: var(--font-mono);
   font-size: var(--fs-label);
-  letter-spacing: var(--tracking-wide);
-  color: var(--text-muted);
+  letter-spacing: 0.5em;
+  background: var(--grad-hands);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
 }
+
 @media (max-width: 640px) {
   .connect__grid {
     grid-template-columns: 1fr;
     gap: var(--sp-3);
-    margin-top: clamp(8rem, 30vh, 16rem);
   }
   .connect__side--left,
   .connect__side--right {
