@@ -41,7 +41,8 @@ export function BootOverlay() {
       setBootPhase("disc");
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") return;
+      // let keyboard users reach the Skip button without "pressing A"
+      if (e.key === "Escape" || e.key === "Tab" || e.key === "Shift") return;
       advance();
     };
     window.addEventListener("keydown", onKey);
