@@ -1,0 +1,163 @@
+{
+  "wii-grab-ccw": {
+    "src": "wii-grab-ccw.cur",
+    "png": "wii-grab-ccw.png",
+    "hotspot": [
+      9,
+      11
+    ]
+  },
+  "wii-grab": {
+    "src": "wii-grab.cur",
+    "png": "wii-grab.png",
+    "hotspot": [
+      11,
+      10
+    ]
+  },
+  "wii-help-ccw": {
+    "src": "wii-help-ccw.cur",
+    "png": "wii-help-ccw.png",
+    "hotspot": [
+      8,
+      2
+    ]
+  },
+  "wii-help": {
+    "src": "wii-help.cur",
+    "png": "wii-help.png",
+    "hotspot": [
+      11,
+      1
+    ]
+  },
+  "wii-loading-cd-ccw": {
+    "src": "wii-loading-cd-ccw.ani",
+    "frames": [
+      "wii-loading-cd-ccw-f00.png",
+      "wii-loading-cd-ccw-f01.png",
+      "wii-loading-cd-ccw-f02.png",
+      "wii-loading-cd-ccw-f03.png",
+      "wii-loading-cd-ccw-f04.png",
+      "wii-loading-cd-ccw-f05.png",
+      "wii-loading-cd-ccw-f06.png",
+      "wii-loading-cd-ccw-f07.png",
+      "wii-loading-cd-ccw-f08.png"
+    ],
+    "hotspot": [
+      9,
+      3
+    ],
+    "fps": 12
+  },
+  "wii-loading-cd": {
+    "src": "wii-loading-cd.ani",
+    "frames": [
+      "wii-loading-cd-f00.png",
+      "wii-loading-cd-f01.png",
+      "wii-loading-cd-f02.png",
+      "wii-loading-cd-f03.png",
+      "wii-loading-cd-f04.png",
+      "wii-loading-cd-f05.png",
+      "wii-loading-cd-f06.png",
+      "wii-loading-cd-f07.png"
+    ],
+    "hotspot": [
+      11,
+      2
+    ],
+    "fps": 12
+  },
+  "wii-move-ccw": {
+    "src": "wii-move-ccw.cur",
+    "png": "wii-move-ccw.png",
+    "hotspot": [
+      3,
+      5
+    ]
+  },
+  "wii-move": {
+    "src": "wii-move.cur",
+    "png": "wii-move.png",
+    "hotspot": [
+      5,
+      3
+    ]
+  },
+  "wii-open-ccw": {
+    "src": "wii-open-ccw.cur",
+    "png": "wii-open-ccw.png",
+    "hotspot": [
+      7,
+      3
+    ]
+  },
+  "wii-open": {
+    "src": "wii-open.cur",
+    "png": "wii-open.png",
+    "hotspot": [
+      10,
+      2
+    ]
+  },
+  "wii-pointer-blue-ccw": {
+    "src": "wii-pointer-blue-ccw.cur",
+    "png": "wii-pointer-blue-ccw.png",
+    "hotspot": [
+      8,
+      2
+    ]
+  },
+  "wii-pointer-blue": {
+    "src": "wii-pointer-blue.cur",
+    "png": "wii-pointer-blue.png",
+    "hotspot": [
+      11,
+      1
+    ]
+  },
+  "wii-pointer-ccw": {
+    "src": "wii-pointer-ccw.cur",
+    "png": "wii-pointer-ccw.png",
+    "hotspot": [
+      8,
+      2
+    ]
+  },
+  "wii-pointer-reverse": {
+    "src": "wii-pointer-reverse.cur",
+    "png": "wii-pointer-reverse.png",
+    "hotspot": [
+      20,
+      1
+    ]
+  },
+  "wii-pointer": {
+    "src": "wii-pointer.cur",
+    "png": "wii-pointer.png",
+    "hotspot": [
+      11,
+      1
+    ]
+  },
+  "wii-loading-ring": {
+    "src": "wii-loading-ring.ani",
+    "frames": [
+      "wii-loading-ring-f00.png",
+      "wii-loading-ring-f01.png",
+      "wii-loading-ring-f02.png",
+      "wii-loading-ring-f03.png",
+      "wii-loading-ring-f04.png",
+      "wii-loading-ring-f05.png",
+      "wii-loading-ring-f06.png",
+      "wii-loading-ring-f07.png",
+      "wii-loading-ring-f08.png",
+      "wii-loading-ring-f09.png"
+    ],
+    "hotspot": [
+      5,
+      5
+    ],
+    "fps": 12
+  }
+}

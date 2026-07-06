@@ -1,178 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" class="is-loading">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jonathan Theofilas — Selected work</title>
-  <meta name="description" content="Selected work — systems, cloud, and AR. A portfolio by Jonathan Theofilas." />
+  <meta name="description" content="Selected work — systems, cloud, and AR. A portfolio by Jonathan Theofilas, rebuilt as an interactive 3D plaza." />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Jonathan Theofilas — Selected work" />
-  <meta property="og:description" content="Systems, cloud, and AR. Selected work." />
+  <meta property="og:description" content="Systems, cloud, and AR — explored as an interactive 3D plaza." />
   <meta property="og:url" content="https://jonathantheofilas.github.io" />
   <meta property="og:image" content="/og-image.svg" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#f4f6f8" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- critical: paint the preloader before the bundle arrives (no flash) -->
-  <style>
-    #preloader { position: fixed; inset: 0; z-index: 500; background: #0a0813; display: grid; place-items: center; }
-    html.is-loading { overflow: hidden; }
-  </style>
-
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
 </head>
 <body>
-  <div id="preloader" aria-hidden="true">
-    <canvas id="preloader-canvas"></canvas>
-    <span class="preloader__tag mono">loading / ·:*#</span>
+  <div id="root">
+    <!-- Static fallback for crawlers and no-JS visitors. React replaces this
+         on mount; the live app renders the same content from
+         src/content/*.ts (keep both in sync when adding projects). -->
+    <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">
+      <h1>Jonathan Theofilas</h1>
+      <p>systems · cloud · ar — Melbourne</p>
+      <h2>Selected work</h2>
+      <ul>
+        <li><a href="https://github.com/JonathanTheofilas/sqlite-clone">SQLite clone</a> — a database engine written from scratch in C.</li>
+        <li><a href="https://github.com/JonathanTheofilas/AWS-Music-Subscription-System">AWS music platform</a> — a music subscription app on AWS.</li>
+        <li><a href="https://github.com/JonathanTheofilas/AirBnB-Clone---Property-Booking-Platform">Property booking platform</a> — Node and MongoDB rental app.</li>
+        <li><a href="https://github.com/JonathanTheofilas/BPE-Tokeniser">BPE tokeniser</a> — byte pair encoding in Python.</li>
+        <li><a href="https://github.com/JonathanTheofilas/Langtons-Bug-Farm">Langton's bug farm</a> — cellular automata sandbox in JavaScript.</li>
+        <li>GameSight AR — augmented reality for the Meta Quest 3 (RMIT RoboCup).</li>
+        <li>Data intelligence — Python analytics pipeline, 92% prediction accuracy.</li>
+      </ul>
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/jonathan-theofilas-9454732b7">LinkedIn</a></li>
+        <li><a href="https://github.com/JonathanTheofilas">GitHub</a></li>
+      </ul>
+      <p>Not affiliated with Nintendo.</p>
+    </div>
   </div>
-
-  <a class="skip-link" href="#work">Skip to work</a>
-
-  <header class="site-nav">
-    <a class="site-nav__mark mono" href="#top" aria-label="Top" data-magnetic>*</a>
-    <nav class="site-nav__links" aria-label="Primary">
-      <a href="#work" data-scramble>work</a>
-      <a href="#connect" data-scramble>connect</a>
-    </nav>
-  </header>
-
-  <main id="top">
-    <!-- ===================== LANDING ===================== -->
-    <section class="landing" id="landing" aria-label="Intro">
-      <!-- the two ASCII hands render into this layer (injected by JS) -->
-      <div class="hands" id="hands" aria-hidden="true"></div>
-      <span class="landing__index mono">01 / hello</span>
-      <div class="landing__intro">
-        <h1 class="landing__title">Jonathan Theofilas</h1>
-        <p class="landing__role mono">systems · cloud · ar — melbourne</p>
-      </div>
-      <p class="landing__scroll mono">scroll <span aria-hidden="true">↓</span></p>
-    </section>
-
-    <!-- ===================== SELECTED WORK ===================== -->
-    <section class="section work container" id="work">
-      <div class="section__head">
-        <span class="section__num">02</span>
-        <h2 class="section__title reveal" data-scramble>Selected work</h2>
-      </div>
-
-      <div class="grid" id="project-grid">
-        <a class="grid__tile tile" href="https://github.com/JonathanTheofilas/sqlite-clone" target="_blank" rel="noopener">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>SQLite clone</h3>
-            <p class="tile__blurb">A database engine written from scratch in C: B-tree storage, a hand-written SQL parser, and transactions.</p>
-            <ul class="tags"><li>C</li><li>Databases</li><li>Systems</li></ul>
-          </div>
-        </a>
-        <a class="grid__tile tile" href="https://github.com/JonathanTheofilas/AWS-Music-Subscription-System" target="_blank" rel="noopener">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>AWS music platform</h3>
-            <p class="tile__blurb">A music subscription app on AWS. DynamoDB for the catalogue, S3 for media, and search that returns what you asked for.</p>
-            <ul class="tags"><li>AWS</li><li>DynamoDB</li><li>S3</li></ul>
-          </div>
-        </a>
-        <a class="grid__tile tile" href="https://github.com/JonathanTheofilas/AirBnB-Clone---Property-Booking-Platform" target="_blank" rel="noopener">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>Property booking platform</h3>
-            <p class="tile__blurb">A property rental app built on Node and MongoDB, handling listings, bookings, and the messy edge cases that come with both.</p>
-            <ul class="tags"><li>Node.js</li><li>MongoDB</li><li>Express</li></ul>
-          </div>
-        </a>
-        <a class="grid__tile tile" href="https://github.com/JonathanTheofilas/BPE-Tokeniser" target="_blank" rel="noopener">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>BPE tokeniser</h3>
-            <p class="tile__blurb">A byte pair encoding tokeniser in Python, trained over a multilingual corpus, built to learn how models split text into tokens.</p>
-            <ul class="tags"><li>Python</li><li>NLP</li></ul>
-          </div>
-        </a>
-        <a class="grid__tile tile" href="https://github.com/JonathanTheofilas/Langtons-Bug-Farm" target="_blank" rel="noopener">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>Langton's bug farm</h3>
-            <p class="tile__blurb">A cellular automata sandbox in JavaScript. Langton's Ant, turmites, and custom Turing machines, drawn in real time.</p>
-            <ul class="tags"><li>JavaScript</li><li>Simulation</li></ul>
-          </div>
-        </a>
-        <div class="grid__tile tile">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>GameSight AR</h3>
-            <p class="tile__blurb">An augmented reality app for the Meta Quest 3, built for RMIT's RoboCup team to see what the robots see.</p>
-            <ul class="tags"><li>Unity</li><li>AR</li><li>C#</li></ul>
-          </div>
-        </div>
-        <div class="grid__tile tile">
-          <div class="tile__meta">
-            <h3 class="tile__title reveal" data-scramble>Data intelligence</h3>
-            <p class="tile__blurb">A Python analytics pipeline that reached 92% prediction accuracy on its test set.</p>
-            <ul class="tags"><li>Python</li><li>ML</li><li>Pandas</li></ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="section__head section__head--sub">
-        <span class="section__num">02b</span>
-        <h3 class="section__subtitle reveal" data-scramble>Experience</h3>
-        <span class="section__note mono">shown without proprietary detail</span>
-      </div>
-      <div class="grid grid--exp" id="experience-grid">
-        <div class="grid__tile tile" data-static>
-          <div class="tile__meta">
-            <h3 class="tile__title reveal">AI call-handling platform</h3>
-            <p class="tile__blurb">Backend and frontend for a multi-tenant AI call platform: telephony, conversational AI, and voice synthesis with real-time call state.</p>
-            <ul class="tags"><li>FastAPI</li><li>PostgreSQL</li><li>React/TS</li><li>Azure</li><li>Twilio</li><li class="tag--badge">Professional</li></ul>
-          </div>
-        </div>
-        <div class="grid__tile tile" data-static>
-          <div class="tile__meta">
-            <h3 class="tile__title reveal">Multi-agent AI revenue automation</h3>
-            <p class="tile__blurb">A platform of LLM agents for enrichment, outreach sequencing, and reply classification, wired to CRM and finance APIs with approval workflows.</p>
-            <ul class="tags"><li>FastAPI</li><li>PostgreSQL</li><li>React</li><li>LLM agents</li><li class="tag--badge">Professional</li></ul>
-          </div>
-        </div>
-        <div class="grid__tile tile" data-static>
-          <div class="tile__meta">
-            <h3 class="tile__title reveal">Telecom billing automation</h3>
-            <p class="tile__blurb">A Python pipeline turning carrier billing exports into branded multi-format reports, with validation gates and workflow automation.</p>
-            <ul class="tags"><li>Python</li><li>Data pipeline</li><li>Automation</li></ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== CONNECT ===================== -->
-    <section class="section connect" id="connect">
-      <div class="connect__grid container">
-        <div class="connect__side connect__side--left reveal">
-          <p class="connect__label mono">who</p>
-          <h2 class="connect__name">Jonathan<br />Theofilas</h2>
-          <a class="btn btn--solid" href="https://www.linkedin.com/in/jonathan-theofilas-9454732b7" target="_blank" rel="noopener" data-magnetic>
-            LinkedIn
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-        </div>
-        <div class="connect__side connect__side--right reveal">
-          <p class="connect__label mono">what</p>
-          <ul class="connect__skills">
-            <li>Python</li><li>C / C++</li><li>TypeScript</li><li>AWS</li><li>React</li><li>Node</li><li>Docker</li>
-          </ul>
-          <a class="btn" href="https://github.com/JonathanTheofilas" target="_blank" rel="noopener" data-magnetic>
-            GitHub
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-        </div>
-      </div>
-      <p class="ascii-rule reveal" aria-hidden="true">· : * # * : ·</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <span class="mono">© <span id="year">2026</span> Jonathan Theofilas</span>
-    <span class="mono">Melbourne</span>
-  </footer>
 </body>
 </html>

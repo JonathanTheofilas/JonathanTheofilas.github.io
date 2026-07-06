@@ -1,14 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#463cef"/>
-      <stop offset="100%" stop-color="#fa604f"/>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e9f1f8"/>
     </linearGradient>
   </defs>
-  <rect width="24" height="24" rx="5" fill="#0a0813"/>
-  <g stroke="url(#g)" stroke-width="2.4" stroke-linecap="round">
-    <path d="M12 5v14"/>
-    <path d="M5.9 8.5l12.2 7"/>
-    <path d="M18.1 8.5l-12.2 7"/>
-  </g>
+  <rect x="3" y="3" width="58" height="58" rx="16" fill="#7ed0ff"/>
+  <rect x="6" y="6" width="52" height="52" rx="13" fill="url(#face)"/>
+  <text x="32" y="42" text-anchor="middle" font-family="Nunito, Arial Rounded MT Bold, Arial, sans-serif" font-weight="800" font-size="26" fill="#4a4a4a">JT</text>
 </svg>

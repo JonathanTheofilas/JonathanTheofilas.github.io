@@ -1,21 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#0a0813"/>
-  <radialGradient id="gi" cx="82%" cy="6%" r="80%">
-    <stop offset="0%" stop-color="#463cef" stop-opacity="0.25"/>
-    <stop offset="60%" stop-color="#0a0813" stop-opacity="0"/>
-  </radialGradient>
-  <radialGradient id="gc" cx="8%" cy="100%" r="70%">
-    <stop offset="0%" stop-color="#fa604f" stop-opacity="0.16"/>
-    <stop offset="60%" stop-color="#0a0813" stop-opacity="0"/>
-  </radialGradient>
-  <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#463cef"/>
-    <stop offset="100%" stop-color="#fa604f"/>
-  </linearGradient>
-  <rect width="1200" height="630" fill="url(#gi)"/>
-  <rect width="1200" height="630" fill="url(#gc)"/>
-  <text x="920" y="240" fill="url(#grad)" font-family="'JetBrains Mono',monospace" font-size="52" letter-spacing="10">·:*#*:·</text>
-  <text x="90" y="300" fill="#f2f0fb" font-family="'Space Grotesk',Inter,sans-serif" font-size="88" font-weight="700" letter-spacing="-3">Jonathan Theofilas</text>
-  <text x="92" y="362" fill="#a49fbe" font-family="'JetBrains Mono',monospace" font-size="30">systems · cloud · AR</text>
-  <text x="92" y="410" fill="#fa604f" font-family="'JetBrains Mono',monospace" font-size="26">jonathantheofilas.github.io</text>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="80%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dfe7ee"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef4f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="150" y="130" width="900" height="370" rx="46" fill="#9edcff" opacity="0.55"/>
+  <rect x="160" y="140" width="880" height="350" rx="40" fill="url(#card)"/>
+  <text x="600" y="300" text-anchor="middle" font-family="Nunito, Arial Rounded MT Bold, Arial, sans-serif" font-weight="800" font-size="72" fill="#4a4a4a">Jonathan Theofilas</text>
+  <text x="600" y="370" text-anchor="middle" font-family="Nunito, Arial Rounded MT Bold, Arial, sans-serif" font-weight="700" font-size="30" letter-spacing="6" fill="#3fa9f5">systems · cloud · ar — melbourne</text>
+  <circle cx="600" cy="440" r="7" fill="#3fa9f5"/>
+  <circle cx="570" cy="440" r="5" fill="#c9d6e2"/>
+  <circle cx="630" cy="440" r="5" fill="#c9d6e2"/>
 </svg>
