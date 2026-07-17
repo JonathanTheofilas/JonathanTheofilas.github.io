@@ -14,6 +14,8 @@ export interface PainterStore {
   ax?: number;
   ay?: number;
   ad?: number;
+  /** gem-dither: the ramp this screen locked onto when its channel opened */
+  ramp?: string[];
 }
 
 export type Painter = (
@@ -25,7 +27,18 @@ export type Painter = (
   store: PainterStore,
 ) => void;
 
+import { GEM_RAMPS } from "./gemPalettes";
+
 const TAU = Math.PI * 2;
+
+/** 4×4 Bayer matrix — the classic ordered-dither threshold map. Shared with
+ *  ChannelField's channel-switch dissolve. */
+export const BAYER4 = [
+  [0, 8, 2, 10],
+  [12, 4, 14, 6],
+  [3, 11, 1, 9],
+  [15, 7, 13, 5],
+];
 
 const kaleido: Painter = (ctx, w, h, t, c, _store) => {
   ctx.fillStyle = "#ffffff";
@@ -196,6 +209,59 @@ const glyphs: Painter = (ctx, w, h, t, c, _store) => {
   }
 };
 
+// Ordered dithering of an animated plasma field, quantized to a gemstone
+// ramp (see gemPalettes.ts — colour data from Studio AAA's Dither Boy
+// Gemstones pack). Chunky 4px cells; the ramp is chosen when the channel
+// opens and held for its whole run.
+const gemDither: Painter = (ctx, w, h, t, _c, s) => {
+  if (!s.ramp) {
+    const pick = Math.abs(Math.floor(t * 7)) % GEM_RAMPS.length;
+    s.ramp = GEM_RAMPS[pick].colors;
+  }
+  const ramp = s.ramp;
+  const n = ramp.length;
+  const gw = w >> 2;
+  const gh = h >> 2;
+  for (let y = 0; y < gh; y++) {
+    for (let x = 0; x < gw; x++) {
+      // a slow plasma — two travelling waves warped against each other
+      const v =
+        0.5 +
+        0.5 *
+          Math.sin(x * 0.18 + Math.sin(y * 0.16 + t * 0.9) * 2 + t * 0.6) *
+          Math.cos(y * 0.14 - t * 0.5);
+      const q = v * (n - 1) + (BAYER4[y % 4][x % 4] / 16 - 0.5) * 1.4;
+      const idx = Math.min(n - 1, Math.max(0, Math.round(q)));
+      ctx.fillStyle = ramp[idx];
+      ctx.fillRect(x * 4, y * 4, 4, 4);
+    }
+  }
+};
+
+// Glitchy modulation lines — after the "Modulation Lines Demo" preset:
+// near-black field, stacked scanlines in one electric colour, lengths
+// modulating smoothly with hard random displacements on a slow beat.
+const modLines: Painter = (ctx, w, h, t, c, _store) => {
+  ctx.fillStyle = "#08080c";
+  ctx.fillRect(0, 0, w, h);
+  const beat = Math.floor(t * 2.5); // displacement re-rolls on this beat
+  const hash = (n: number) =>
+    ((Math.sin(n * 12.9898 + beat * 78.233) * 43758.5453) % 1 + 1) % 1;
+  for (let row = 0; row < 40; row++) {
+    const y = row * 4;
+    const lit = Math.sin(row * 0.55 + t * 2.2) > -0.1;
+    if (!lit) continue;
+    const jitter = hash(row);
+    const glitched = jitter > 0.82; // a few rows tear loose each beat
+    const offset = glitched ? jitter * 60 - 30 : Math.sin(t * 1.4 + row * 0.3) * 8;
+    const len = w * (0.45 + 0.5 * hash(row + 100));
+    ctx.fillStyle = glitched ? "#ffffff" : c[1 % c.length];
+    ctx.globalAlpha = glitched ? 0.95 : 0.75;
+    ctx.fillRect(12 + offset, y + 1, len, glitched ? 3 : 2);
+  }
+  ctx.globalAlpha = 1;
+};
+
 export const PAINTERS: Painter[] = [
   kaleido,
   waves,
@@ -205,4 +271,6 @@ export const PAINTERS: Painter[] = [
   rings,
   dots,
   glyphs,
+  gemDither,
+  modLines,
 ];

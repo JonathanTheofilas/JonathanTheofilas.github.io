@@ -4,7 +4,7 @@ import { Float, RoundedBox } from "@react-three/drei";
 import { CanvasTexture, SRGBColorSpace } from "three";
 import { sectionProgress } from "../components/SectionContainer";
 import { mulberry32 } from "./random";
-import { PAINTERS, type PainterStore } from "./tilePainters";
+import { BAYER4, PAINTERS, type PainterStore } from "./tilePainters";
 
 /**
  * The opening scene: the Wii Menu's channel grid, exploded into a 3D field
@@ -81,11 +81,17 @@ function Tile({ spec }: { spec: TileSpec }) {
     const painter = PAINTERS[(spec.painterBase + slot) % PAINTERS.length];
     painter(ctx, SCREEN_W, SCREEN_H, t, spec.colors, r.store);
 
-    // the white flash of a channel change
+    // The channel change is a dither dissolve — white pixels thin out
+    // through the Bayer thresholds instead of a uniform fade. "Dither in,
+    // dither out", applied exactly where it belongs.
     const sinceSwitch = t - slot * CHANNEL_SECONDS;
     if (sinceSwitch < 0.45) {
-      ctx.fillStyle = `rgba(255,255,255,${1 - sinceSwitch / 0.45})`;
-      ctx.fillRect(0, 0, SCREEN_W, SCREEN_H);
+      const p = sinceSwitch / 0.45;
+      ctx.fillStyle = "#ffffff";
+      for (let cy = 0; cy < SCREEN_H >> 2; cy++)
+        for (let cx = 0; cx < SCREEN_W >> 2; cx++)
+          if (BAYER4[cy % 4][cx % 4] / 16 >= p)
+            ctx.fillRect(cx * 4, cy * 4, 4, 4);
     }
     tex.needsUpdate = true;
   });
