@@ -43,6 +43,16 @@ export function Loader() {
     if (reducedMotion) finishBoot();
   }, [reducedMotion, finishBoot]);
 
+  // Safety valve: the loader gates the whole site on rAF and fonts.ready —
+  // a wedged font promise or a battery-saver throttling rAF must never hold
+  // a visitor hostage on the count screen. After 6s, we're in regardless.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (useAppStore.getState().bootPhase !== "done") finishBoot();
+    }, 6000);
+    return () => clearTimeout(t);
+  }, [finishBoot]);
+
   // Count toward a target that only reaches 100 once fonts are actually ready.
   useEffect(() => {
     if (phase === "done") return;
