@@ -75,18 +75,6 @@
   transform: scaleX(1);
 }
 
-.hd__toggle {
-  border: none;
-  background: none;
-  padding: 6px 0;
-  cursor: pointer;
-  color: var(--text-faint);
-  transition: color var(--dur-quick) var(--ease-out);
-}
-.hd__toggle:hover {
-  color: var(--accent);
-}
-
 .hd__cta {
   padding: 10px 18px;
   border-radius: var(--radius-pill);
@@ -114,8 +102,7 @@
     gap: 18px;
   }
   /* keep the CTA and the mark; the section links are reachable by scrolling */
-  .hd__link,
-  .hd__toggle {
+  .hd__link {
     display: none;
   }
 }

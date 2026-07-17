@@ -79,7 +79,7 @@ interface AppState {
   setActiveProject: (id: string | null) => void;
 
   theme: ThemeMode;
-  cycleTheme: () => void;
+  setTheme: (t: ThemeMode) => void;
 
   quality: Quality;
   setQuality: (q: Quality) => void;
@@ -121,13 +121,12 @@ export const useAppStore = create<AppState>((set) => ({
   setActiveProject: (activeProject) => set({ activeProject }),
 
   theme: storedTheme ?? (prefersDark ? "ink" : "porcelain"),
-  cycleTheme: () =>
-    set((s) => {
-      const theme = THEMES[(THEMES.indexOf(s.theme) + 1) % THEMES.length];
+  setTheme: (theme) =>
+    set(() => {
       try {
         localStorage.setItem("theme", theme);
       } catch {
-        /* private mode — preference simply won't persist */
+        /* private mode - preference simply won't persist */
       }
       return { theme };
     }),

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { site } from "../content/site";
 import { scrollTo } from "../lib/useLenis";
-import { useAppStore } from "../store/useAppStore";
+import { ThemePicker } from "./ThemePicker";
 import "./Header.css";
 
 const NAV = [
@@ -16,8 +16,6 @@ const NAV = [
  */
 export function Header() {
   const [hidden, setHidden] = useState(false);
-  const theme = useAppStore((s) => s.theme);
-  const cycleTheme = useAppStore((s) => s.cycleTheme);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -60,15 +58,7 @@ export function Header() {
             {label}
           </a>
         ))}
-        {/* cycles the wardrobe: porcelain, ink, and the gem themes */}
-        <button
-          type="button"
-          className="hd__toggle chrome"
-          onClick={cycleTheme}
-          aria-label={"Theme: " + theme + ". Activate for the next theme."}
-        >
-          theme: {theme}
-        </button>
+        <ThemePicker />
 
         <a
           className="hd__cta chrome"

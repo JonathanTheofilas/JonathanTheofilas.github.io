@@ -1,5 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { useAppStore } from "../store/useAppStore";
+import { THEME_META } from "../lib/themes";
 import { CameraRig } from "./CameraRig";
 import { DitherWave } from "./DitherWave";
 import { DitherEmblem } from "./DitherEmblem";
@@ -33,20 +34,13 @@ import { DitherOrb } from "./DitherOrb";
  *  darker or lighter than the page turns every distant cell into a
  *  silhouette speck (learned on the galaxy branch, kept forever).
  *  These mirror --bg in editorial.css exactly, one entry per theme. */
-const PAGE = {
-  porcelain: "#f4f6f8",
-  ink: "#0f1217",
-  sapphire: "#0a0f26",
-  amethyst: "#16101f",
-  emerald: "#06120a",
-  ruby: "#170a0c",
-} as const;
+// page colour per theme lives in lib/themes.ts (THEME_META)
 
 export function Stage() {
   const reducedMotion = useAppStore((s) => s.reducedMotion);
   const quality = useAppStore((s) => s.quality);
   const theme = useAppStore((s) => s.theme);
-  const page = PAGE[theme];
+  const page = THEME_META[theme].bg;
 
   if (reducedMotion) return null;
 
