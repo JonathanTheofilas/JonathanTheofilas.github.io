@@ -2,6 +2,9 @@ import { useLenis } from "./lib/useLenis";
 import { SectionContainer } from "./components/SectionContainer";
 import { Header } from "./components/Header";
 import { Loader } from "./components/Loader";
+import { SectionLabel } from "./components/SectionLabel";
+import { Stage } from "./gl/Stage";
+import { vhOf } from "./gl/timeline";
 import { Hero } from "./sections/Hero";
 import { Beat } from "./sections/Beat";
 import { Experience } from "./sections/Experience";
@@ -12,31 +15,15 @@ import { SrDocument } from "./overlay/SrDocument";
 import "./audio/sfx"; // wires Howler to the store
 
 /**
- * The scroll budget — the whole layout in one table.
+ * Two layers, same split as the reference site:
  *
- * `vh` is how many viewport-heights of scroll each section owns. This is the
- * design decision, not a technicality: giving Experience 4.5 screens and the
- * hero 1 says which is worth someone's time without writing a word about it.
+ *   Stage  — a full-page WebGL canvas. The camera dollies through staged
+ *            scenes (channel field → holograms → project orbs →
+ *            constellation → finale) driven by scroll. The show.
+ *   main   — monochrome typography floating above it. The frame.
  *
- * The reference site spends 48% of its entire length on the two things it
- * sells and moves briskly through everything else. Same split here — the
- * production work and the projects take 9.5 of 15.6 viewports (61%), and the
- * introduction gets one screen to say a name and get out of the way.
- *
- * The `beat` entries are transition budget: a whole viewport that exists only
- * to open a section. That looks like waste and is the opposite — it's most of
- * what separates this from a page that cuts block to block.
+ * The scroll budget both layers share lives in gl/timeline.ts.
  */
-const BUDGET = {
-  hero: 1,
-  workIntro: 1,
-  experience: 4.5,
-  projectsIntro: 1,
-  projects: 5,
-  about: 1.6,
-  contact: 1.5,
-} as const;
-
 export default function App() {
   useLenis();
 
@@ -47,14 +34,16 @@ export default function App() {
       </a>
 
       <Loader />
+      <Stage />
       <Header />
+      <SectionLabel />
 
       <main id="top">
-        <SectionContainer id="hero" vh={BUDGET.hero} label="Introduction">
+        <SectionContainer id="hero" vh={vhOf("hero")} label="Introduction">
           {(p) => <Hero progress={p} />}
         </SectionContainer>
 
-        <SectionContainer id="work-intro" vh={BUDGET.workIntro} label="Work">
+        <SectionContainer id="work-intro" vh={vhOf("work-intro")} label="Work">
           {(p) => (
             <Beat
               progress={p}
@@ -67,7 +56,7 @@ export default function App() {
 
         <SectionContainer
           id="experience"
-          vh={BUDGET.experience}
+          vh={vhOf("experience")}
           label="Experience"
         >
           {(p) => <Experience progress={p} />}
@@ -75,7 +64,7 @@ export default function App() {
 
         <SectionContainer
           id="projects-intro"
-          vh={BUDGET.projectsIntro}
+          vh={vhOf("projects-intro")}
           label="Projects"
         >
           {(p) => (
@@ -88,15 +77,15 @@ export default function App() {
           )}
         </SectionContainer>
 
-        <SectionContainer id="projects" vh={BUDGET.projects} label="Projects">
+        <SectionContainer id="projects" vh={vhOf("projects")} label="Projects">
           {(p) => <Projects progress={p} />}
         </SectionContainer>
 
-        <SectionContainer id="about" vh={BUDGET.about} label="About">
+        <SectionContainer id="about" vh={vhOf("about")} label="About">
           {(p) => <About progress={p} />}
         </SectionContainer>
 
-        <SectionContainer id="contact" vh={BUDGET.contact} label="Contact">
+        <SectionContainer id="contact" vh={vhOf("contact")} label="Contact">
           {(p) => <Contact progress={p} />}
         </SectionContainer>
       </main>

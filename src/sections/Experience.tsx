@@ -1,5 +1,7 @@
+import { useEffect, useRef } from "react";
 import { site } from "../content/site";
 import { span, easeOut } from "../components/SectionContainer";
+import { sfx } from "../audio/sfx";
 import "./Experience.css";
 
 /**
@@ -22,6 +24,16 @@ export function Experience({ progress }: { progress: number }) {
   // last item gets a beat to sit at full attention before the section ends.
   const p = span(progress, 0.08, 0.92);
   const active = Math.min(n - 1, Math.floor(p * n));
+
+  // A quiet blip as focus moves down the list — the Wii's hover sound,
+  // repurposed. No-op while muted (the default); rate-limited in sfx.
+  const prevActive = useRef(active);
+  useEffect(() => {
+    if (prevActive.current !== active) {
+      prevActive.current = active;
+      sfx.play("blip");
+    }
+  }, [active]);
 
   return (
     <div className="xp">

@@ -36,6 +36,14 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
    fail this way. Correctness first; the IO gate was optimising the wrong side
    of the trade. The loop parks itself when nothing is subscribed. */
 
+/**
+ * Live progress per section id, written every frame. The GL stage reads this
+ * to drive the camera and scene choreography without ever re-rendering React —
+ * the same split the plaza used (React for structure, a transient object for
+ * per-frame motion).
+ */
+export const sectionProgress: Record<string, number> = {};
+
 type Measurer = () => void;
 const subscribers = new Set<Measurer>();
 let ticking = 0;
@@ -88,6 +96,7 @@ export function SectionContainer({ id, vh, children, label, className }: Props) 
       // Still cheaper than an IntersectionObserver and it can't wedge.
       if (rect.bottom < 0 || rect.top > window.innerHeight) {
         const settled = rect.bottom < 0 ? 1 : 0;
+        sectionProgress[id] = settled;
         if (settled !== last) {
           last = settled;
           setProgress(settled);
@@ -110,7 +119,9 @@ export function SectionContainer({ id, vh, children, label, className }: Props) 
       const budget = pinTravel > 0 ? pinTravel : rect.height;
       const p = budget > 0 ? clamp(-rect.top / budget) : 0;
 
-      // Don't re-render on sub-pixel noise.
+      // The registry gets the raw value every frame (the GL stage wants it
+      // continuous); React only re-renders past sub-pixel noise.
+      sectionProgress[id] = p;
       if (Math.abs(p - last) > 0.0005) {
         last = p;
         setProgress(p);
@@ -118,8 +129,12 @@ export function SectionContainer({ id, vh, children, label, className }: Props) 
     };
 
     measure(); // settle before the first frame, so nothing flashes
-    return subscribe(measure);
-  }, [isFn]);
+    const unsubscribe = subscribe(measure);
+    return () => {
+      unsubscribe();
+      delete sectionProgress[id];
+    };
+  }, [isFn, id]);
 
   return (
     <section

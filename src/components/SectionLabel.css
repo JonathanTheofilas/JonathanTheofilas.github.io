@@ -1,0 +1,17 @@
+.sl {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 18px;
+  z-index: var(--z-content);
+  color: var(--text-faint);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .sl {
+    display: none;
+  }
+}

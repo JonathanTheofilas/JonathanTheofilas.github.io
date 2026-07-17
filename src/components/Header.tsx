@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { site } from "../content/site";
 import { scrollTo } from "../lib/useLenis";
+import { useAppStore } from "../store/useAppStore";
+import { sfx } from "../audio/sfx";
 import "./Header.css";
 
 const NAV = [
@@ -15,6 +17,8 @@ const NAV = [
  */
 export function Header() {
   const [hidden, setHidden] = useState(false);
+  const muted = useAppStore((s) => s.muted);
+  const toggleMuted = useAppStore((s) => s.toggleMuted);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -32,6 +36,7 @@ export function Header() {
 
   const jump = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    sfx.play("click");
     scrollTo(href);
   };
 
@@ -57,6 +62,21 @@ export function Header() {
             {label}
           </a>
         ))}
+        {/* The Wii was never silent. Synthesized blips and a soft hum, off by
+            default (autoplay policy), one click to invite them in. */}
+        <button
+          type="button"
+          className="hd__sound chrome"
+          onClick={() => {
+            toggleMuted();
+            sfx.play("click");
+          }}
+          aria-pressed={!muted}
+          aria-label={muted ? "Turn sound on" : "Turn sound off"}
+        >
+          {muted ? "sound: off" : "sound: on"}
+        </button>
+
         <a
           className="hd__cta chrome"
           href={site.contact.links[0].href}

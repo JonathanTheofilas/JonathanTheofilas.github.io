@@ -119,6 +119,13 @@ a {
   text-decoration: none;
 }
 
+/* The DOM floats above the GL stage — same layering as the reference:
+   canvas at the bottom, typography over it, chrome on top. */
+main {
+  position: relative;
+  z-index: var(--z-content);
+}
+
 img,
 canvas {
   display: block;
