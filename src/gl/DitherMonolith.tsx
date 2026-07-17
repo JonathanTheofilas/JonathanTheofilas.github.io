@@ -156,7 +156,7 @@ export function DitherMonolith() {
   });
 
   return (
-    <group position={[2.7, -0.1, -60.5]}>
+    <group position={[3.2, -0.1, -60.5]}>
       <instancedMesh
         ref={mesh}
         args={[undefined as never, undefined as never, COUNT]}

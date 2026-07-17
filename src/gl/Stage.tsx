@@ -29,9 +29,16 @@ import { DitherOrb } from "./DitherOrb";
  * any future lit prop doesn't arrive into darkness. pointer-events is none:
  * the DOM owns every interaction. Reduced motion renders no canvas at all.
  */
+/** The page colour per theme. Fog and background MUST move together — fog
+ *  darker or lighter than the page turns every distant cell into a
+ *  silhouette speck (learned on the galaxy branch, kept forever). */
+const PAGE = { light: "#f4f6f8", dark: "#0f1217" } as const;
+
 export function Stage() {
   const reducedMotion = useAppStore((s) => s.reducedMotion);
   const quality = useAppStore((s) => s.quality);
+  const theme = useAppStore((s) => s.theme);
+  const page = PAGE[theme];
 
   if (reducedMotion) return null;
 
@@ -48,8 +55,8 @@ export function Stage() {
       }}
       aria-hidden="true"
     >
-      <color attach="background" args={["#f4f6f8"]} />
-      <fog attach="fog" args={["#f4f6f8", 6, 34]} />
+      <color attach="background" args={[page]} />
+      <fog attach="fog" args={[page, 6, 34]} key={page} />
 
       <hemisphereLight args={["#ffffff", "#dde9f2", 1.1]} />
       <directionalLight position={[5, 7, 4]} intensity={1.3} />

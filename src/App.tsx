@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useLenis } from "./lib/useLenis";
+import { useAppStore } from "./store/useAppStore";
 import { SectionContainer } from "./components/SectionContainer";
 import { Header } from "./components/Header";
 import { Loader } from "./components/Loader";
@@ -26,6 +28,12 @@ import "./audio/sfx"; // wires Howler to the store
  */
 export default function App() {
   useLenis();
+
+  // theme reaches CSS via the data attribute; the GL stage reads the store
+  const theme = useAppStore((s) => s.theme);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   return (
     <>

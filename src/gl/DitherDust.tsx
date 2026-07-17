@@ -32,8 +32,10 @@ export function DitherDust() {
   const motes = useMemo<Mote[]>(() => {
     const rnd = mulberry32(4816); // Bayer's finest hour
     return Array.from({ length: N }, (_, i) => ({
+      // skewed right: the About text owns screen-left, the dust may not
+      // drift across it
       pos: [
-        (rnd() * 2 - 1) * 7,
+        -0.5 + rnd() * 8,
         (rnd() * 2 - 1) * 3.5,
         (rnd() * 2 - 1) * 8,
       ],
@@ -108,7 +110,7 @@ export function DitherDust() {
       const a = (k / projects.length) * Math.PI * 2 + t * 0.04;
       const on = hash(k * 17 + 3) < arrive;
       dummy.position.set(
-        Math.cos(a) * 3.6,
+        2.2 + Math.cos(a) * 2.4,
         Math.sin(a) * 1.7 + Math.sin(t * 0.4 + k) * 0.12,
         -2 - (k % 3),
       );

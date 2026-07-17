@@ -117,7 +117,7 @@ export function DitherWave() {
   });
 
   return (
-    <group position={[0, -1.7, 0]}>
+    <group position={[0, -2.05, 0]}>
       <instancedMesh
         ref={mesh}
         args={[undefined as never, undefined as never, COUNT]}

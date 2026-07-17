@@ -19,8 +19,8 @@
   height: 64%;
   background: radial-gradient(
     ellipse at 32% 50%,
-    rgba(244, 246, 248, 0.95) 0%,
-    rgba(244, 246, 248, 0.72) 42%,
+    rgba(var(--halo-rgb), 0.95) 0%,
+    rgba(var(--halo-rgb), 0.72) 42%,
     transparent 72%
   );
   pointer-events: none;
@@ -55,6 +55,10 @@
 }
 
 .hero__hint {
+  /* the hint sits over the pixel ocean — it needs its own ground */
+  text-shadow:
+    0 1px 10px rgba(var(--halo-rgb), 0.95),
+    0 0 4px rgba(var(--halo-rgb), 0.9);
   position: absolute;
   left: var(--gutter);
   bottom: 48px;

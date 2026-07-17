@@ -11,6 +11,12 @@
    ========================================================================== */
 
 :root {
+  color-scheme: light;
+
+  /* the page colour as raw RGB, for scrims and text halos that must sit
+     on "the page" whichever theme is active */
+  --halo-rgb: 244, 246, 248;
+
   /* --- surface ------------------------------------------------------- */
   --bg: #f4f6f8; /* Wii off-white, inherited from wii.css */
   --bg-deep: #e9eef3; /* recessed panels */
@@ -72,6 +78,31 @@
   --z-content: 10;
   --z-header: 99; /* alche: 99 */
   --z-cursor: 60;
+}
+
+/* --- dark mode --------------------------------------------------------
+   Same bones, night ink. The GL stage follows via the store (Stage.tsx) —
+   fog and background must move together or every distant cell silhouettes. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --halo-rgb: 15, 18, 23;
+
+  --bg: #0f1217;
+  --bg-deep: #0a0d11;
+  --surface: #181d24;
+  --border: #2a3039;
+
+  --text: #edeff3;
+  --text-soft: #9aa3b0;
+  --text-faint: #626b78;
+
+  --accent: #5fb2e8;
+  --accent-deep: #3d92c9;
+  --accent-wash: rgba(95, 178, 232, 0.12);
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lift: 0 18px 48px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(95, 178, 232, 0.16);
 }
 
 *,

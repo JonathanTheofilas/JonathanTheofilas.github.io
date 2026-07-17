@@ -152,7 +152,7 @@ export function DitherEmblem() {
   });
 
   return (
-    <group position={[3.0, 0.1, -32]}>
+    <group position={[3.6, 0.1, -32]}>
       <instancedMesh
         ref={mesh}
         args={[undefined as never, undefined as never, COUNT]}

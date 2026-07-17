@@ -1,12 +1,10 @@
 .pj {
   height: 100vh;
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 64px;
+  grid-template-columns: 240px minmax(0, 50ch);
+  gap: 56px;
   align-items: center;
   padding: 0 var(--gutter);
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 /* --- pinned index column ---------------------------------------------- */
@@ -132,7 +130,6 @@
   color: var(--text-soft);
   font-size: 14px;
   line-height: 1.6;
-  max-width: 56ch;
 }
 
 .pj__tags {
@@ -158,7 +155,9 @@
 
 @media (max-width: 1024px) {
   .pj {
-    grid-template-columns: 1fr;
+    /* single column, but still capped — full-width text runs straight
+       under the GL scene on ~1024px-effective laptops */
+    grid-template-columns: minmax(0, 55ch);
     gap: 24px;
     align-content: center;
   }

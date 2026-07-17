@@ -121,7 +121,7 @@ export function DitherOrb() {
   });
 
   return (
-    <group position={[2.7, 0.35, -122]}>
+    <group position={[3.1, 0.35, -122]}>
       <instancedMesh
         ref={mesh}
         args={[undefined as never, undefined as never, COUNT]}

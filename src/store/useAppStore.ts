@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export type BootPhase = "splash" | "disc" | "bloom" | "done";
+export type ThemeMode = "light" | "dark";
 export type CursorMode = "pointer" | "open" | "grab" | "loading";
 export type Quality = "high" | "low";
 
@@ -27,6 +28,14 @@ const isTouch =
 const hasBooted =
   typeof window !== "undefined" &&
   localStorage.getItem("wii-booted") === "1";
+
+const storedTheme =
+  typeof window !== "undefined"
+    ? (localStorage.getItem("theme") as ThemeMode | null)
+    : null;
+const prefersDark =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 interface AppState {
   reducedMotion: boolean;
@@ -55,6 +64,9 @@ interface AppState {
 
   muted: boolean;
   toggleMuted: () => void;
+
+  theme: ThemeMode;
+  toggleTheme: () => void;
 
   quality: Quality;
   setQuality: (q: Quality) => void;
@@ -97,6 +109,18 @@ export const useAppStore = create<AppState>((set) => ({
 
   muted: true, // browsers block autoplay; audio unlocks on first gesture
   toggleMuted: () => set((s) => ({ muted: !s.muted })),
+
+  theme: storedTheme ?? (prefersDark ? "dark" : "light"),
+  toggleTheme: () =>
+    set((s) => {
+      const theme: ThemeMode = s.theme === "light" ? "dark" : "light";
+      try {
+        localStorage.setItem("theme", theme);
+      } catch {
+        /* private mode — preference simply won't persist */
+      }
+      return { theme };
+    }),
 
   quality: "high",
   setQuality: (quality) => set({ quality }),
