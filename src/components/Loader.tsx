@@ -21,27 +21,28 @@ import "./Loader.css";
  * signature, and it's the one moment on the site that's allowed to be springy.
  * Everything else eases.
  *
- * Return visitors skip it. Seeing a loading animation twice is a loading
- * animation once too many.
+ * It runs on EVERY visit — the reference site does the same. An earlier
+ * version skipped it for return visitors, which meant the person most likely
+ * to look at the site repeatedly (its owner) never saw the boot at all.
+ * Only reduced-motion skips it.
  */
 
-const MIN_MS = 900; // below this it reads as a flash, not a beat
+const MIN_MS = 1200; // below this it reads as a flash, not a beat
 const BLOOM_MS = 900;
 
 export function Loader() {
   const phase = useAppStore((s) => s.bootPhase);
   const setBootPhase = useAppStore((s) => s.setBootPhase);
   const finishBoot = useAppStore((s) => s.finishBoot);
-  const returnVisitor = useAppStore((s) => s.returnVisitor);
   const reducedMotion = useAppStore((s) => s.reducedMotion);
 
   const [pct, setPct] = useState(0);
   const startedAt = useRef(performance.now());
 
-  // Skip for return visitors and anyone who asked for less motion.
+  // Skip only for those who asked for less motion.
   useEffect(() => {
-    if (returnVisitor || reducedMotion) finishBoot();
-  }, [returnVisitor, reducedMotion, finishBoot]);
+    if (reducedMotion) finishBoot();
+  }, [reducedMotion, finishBoot]);
 
   // Count toward a target that only reaches 100 once fonts are actually ready.
   useEffect(() => {
@@ -114,7 +115,13 @@ export function Loader() {
       <span className="ld__bloom" aria-hidden="true" />
 
       <div className="ld__inner">
-        <span className="ld__mark display">{site.monogram}</span>
+        {/* the monogram sits inside a slow pulsing ring — the Wii's glowing
+            "press Ⓐ" button, reduced to its outline */}
+        <div className="ld__markwrap">
+          <span className="ld__ring" aria-hidden="true" />
+          <span className="ld__ring ld__ring--late" aria-hidden="true" />
+          <span className="ld__mark display">{site.monogram}</span>
+        </div>
 
         <div className="ld__track" aria-hidden="true">
           <span

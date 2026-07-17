@@ -7,7 +7,27 @@
   padding: 0 var(--gutter);
 }
 
+/* A soft white pool behind the name. The channel screens behind the hero are
+   colourful and animated on purpose — this keeps the type sitting on calm
+   ground without walling the scene off. */
+.hero::before {
+  content: "";
+  position: absolute;
+  left: -12%;
+  top: 18%;
+  width: 76%;
+  height: 64%;
+  background: radial-gradient(
+    ellipse at 32% 50%,
+    rgba(244, 246, 248, 0.95) 0%,
+    rgba(244, 246, 248, 0.72) 42%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
 .hero__inner {
+  position: relative; /* above the scrim */
   max-width: 900px;
   will-change: transform, opacity;
 }
