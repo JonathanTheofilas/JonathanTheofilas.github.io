@@ -75,7 +75,7 @@
   transform: scaleX(1);
 }
 
-.hd__sound {
+.hd__toggle {
   border: none;
   background: none;
   padding: 6px 0;
@@ -83,7 +83,7 @@
   color: var(--text-faint);
   transition: color var(--dur-quick) var(--ease-out);
 }
-.hd__sound:hover {
+.hd__toggle:hover {
   color: var(--accent);
 }
 
@@ -115,7 +115,7 @@
   }
   /* keep the CTA and the mark; the section links are reachable by scrolling */
   .hd__link,
-  .hd__sound {
+  .hd__toggle {
     display: none;
   }
 }

@@ -1,7 +1,5 @@
-import { useEffect, useRef } from "react";
 import { projects } from "../content/projects";
 import { span, easeOut } from "../components/SectionContainer";
-import { sfx } from "../audio/sfx";
 import "./Projects.css";
 
 /**
@@ -26,15 +24,6 @@ export function Projects({ progress }: { progress: number }) {
 
   // the reel travels one slot per project, eased so it settles rather than slides
   const travel = easeOut(p) * (n - 1) * SLOT;
-
-  // blip as the reel ticks past each project — see Experience.tsx
-  const prevActive = useRef(active);
-  useEffect(() => {
-    if (prevActive.current !== active) {
-      prevActive.current = active;
-      sfx.play("blip");
-    }
-  }, [active]);
 
   return (
     <div className="pj">

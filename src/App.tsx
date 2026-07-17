@@ -14,7 +14,6 @@ import { Projects } from "./sections/Projects";
 import { About } from "./sections/About";
 import { Contact } from "./sections/Contact";
 import { SrDocument } from "./overlay/SrDocument";
-import "./audio/sfx"; // wires Howler to the store
 
 /**
  * Two layers, same split as the reference site:

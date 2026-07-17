@@ -31,8 +31,16 @@ import { DitherOrb } from "./DitherOrb";
  */
 /** The page colour per theme. Fog and background MUST move together — fog
  *  darker or lighter than the page turns every distant cell into a
- *  silhouette speck (learned on the galaxy branch, kept forever). */
-const PAGE = { light: "#f4f6f8", dark: "#0f1217" } as const;
+ *  silhouette speck (learned on the galaxy branch, kept forever).
+ *  These mirror --bg in editorial.css exactly, one entry per theme. */
+const PAGE = {
+  porcelain: "#f4f6f8",
+  ink: "#0f1217",
+  sapphire: "#0a0f26",
+  amethyst: "#16101f",
+  emerald: "#06120a",
+  ruby: "#170a0c",
+} as const;
 
 export function Stage() {
   const reducedMotion = useAppStore((s) => s.reducedMotion);

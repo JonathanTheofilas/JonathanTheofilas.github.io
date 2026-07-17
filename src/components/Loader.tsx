@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppStore } from "../store/useAppStore";
 import { site } from "../content/site";
-import { sfx } from "../audio/sfx";
 import "./Loader.css";
 
 /**
@@ -75,7 +74,6 @@ export function Loader() {
   useEffect(() => {
     if (phase !== "splash" || pct < 100) return;
     setBootPhase("bloom");
-    sfx.play("chime"); // no-ops while muted, which is the default
   }, [pct, phase, setBootPhase]);
 
   // Bloom → done, on its own effect.

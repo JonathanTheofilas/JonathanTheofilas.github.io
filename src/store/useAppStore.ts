@@ -1,7 +1,16 @@
 import { create } from "zustand";
 
 export type BootPhase = "splash" | "disc" | "bloom" | "done";
-export type ThemeMode = "light" | "dark";
+/** the wardrobe — porcelain is the light theme, the rest run dark */
+export const THEMES = [
+  "porcelain",
+  "ink",
+  "sapphire",
+  "amethyst",
+  "emerald",
+  "ruby",
+] as const;
+export type ThemeMode = (typeof THEMES)[number];
 export type CursorMode = "pointer" | "open" | "grab" | "loading";
 export type Quality = "high" | "low";
 
@@ -29,10 +38,17 @@ const hasBooted =
   typeof window !== "undefined" &&
   localStorage.getItem("wii-booted") === "1";
 
-const storedTheme =
-  typeof window !== "undefined"
-    ? (localStorage.getItem("theme") as ThemeMode | null)
-    : null;
+// migrate the earlier two-theme values; ignore anything unknown
+const rawTheme =
+  typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+const storedTheme: ThemeMode | null =
+  rawTheme === "light"
+    ? "porcelain"
+    : rawTheme === "dark"
+      ? "ink"
+      : THEMES.includes(rawTheme as ThemeMode)
+        ? (rawTheme as ThemeMode)
+        : null;
 const prefersDark =
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -62,11 +78,8 @@ interface AppState {
   activeProject: string | null;
   setActiveProject: (id: string | null) => void;
 
-  muted: boolean;
-  toggleMuted: () => void;
-
   theme: ThemeMode;
-  toggleTheme: () => void;
+  cycleTheme: () => void;
 
   quality: Quality;
   setQuality: (q: Quality) => void;
@@ -107,13 +120,10 @@ export const useAppStore = create<AppState>((set) => ({
   activeProject: null,
   setActiveProject: (activeProject) => set({ activeProject }),
 
-  muted: true, // browsers block autoplay; audio unlocks on first gesture
-  toggleMuted: () => set((s) => ({ muted: !s.muted })),
-
-  theme: storedTheme ?? (prefersDark ? "dark" : "light"),
-  toggleTheme: () =>
+  theme: storedTheme ?? (prefersDark ? "ink" : "porcelain"),
+  cycleTheme: () =>
     set((s) => {
-      const theme: ThemeMode = s.theme === "light" ? "dark" : "light";
+      const theme = THEMES[(THEMES.indexOf(s.theme) + 1) % THEMES.length];
       try {
         localStorage.setItem("theme", theme);
       } catch {

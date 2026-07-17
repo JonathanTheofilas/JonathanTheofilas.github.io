@@ -80,29 +80,104 @@
   --z-cursor: 60;
 }
 
-/* --- dark mode --------------------------------------------------------
-   Same bones, night ink. The GL stage follows via the store (Stage.tsx) —
-   fog and background must move together or every distant cell silhouettes. */
-:root[data-theme="dark"] {
+/* --- the wardrobe -------------------------------------------------------
+   :root is porcelain (light). Every other theme runs dark, tinted by one of
+   the gemstone ramps the GL scenes already wear. The GL stage follows via
+   the store (Stage.tsx PAGE map — must mirror --bg exactly): fog and
+   background must move together or every distant cell silhouettes. */
+
+:root[data-theme="ink"] {
   color-scheme: dark;
   --halo-rgb: 15, 18, 23;
-
   --bg: #0f1217;
   --bg-deep: #0a0d11;
   --surface: #181d24;
   --border: #2a3039;
-
   --text: #edeff3;
   --text-soft: #9aa3b0;
   --text-faint: #626b78;
-
   --accent: #5fb2e8;
   --accent-deep: #3d92c9;
   --accent-wash: rgba(95, 178, 232, 0.12);
-
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-lift: 0 18px 48px rgba(0, 0, 0, 0.6),
     0 0 24px rgba(95, 178, 232, 0.16);
+}
+
+/* Sapphire — deep blue night, electric accent (ramp: Sapphire) */
+:root[data-theme="sapphire"] {
+  color-scheme: dark;
+  --halo-rgb: 10, 15, 38;
+  --bg: #0a0f26;
+  --bg-deep: #060a1c;
+  --surface: #121a3d;
+  --border: #26305c;
+  --text: #e9edfb;
+  --text-soft: #9aa6d2;
+  --text-faint: #5d6a99;
+  --accent: #5582ff;
+  --accent-deep: #3a63e0;
+  --accent-wash: rgba(85, 130, 255, 0.14);
+  --shadow: 0 10px 30px rgba(2, 4, 16, 0.55), 0 2px 8px rgba(2, 4, 16, 0.45);
+  --shadow-lift: 0 18px 48px rgba(2, 4, 16, 0.65),
+    0 0 24px rgba(85, 130, 255, 0.2);
+}
+
+/* Amethyst — plum dusk, orchid accent (ramp: Amethyst Shard) */
+:root[data-theme="amethyst"] {
+  color-scheme: dark;
+  --halo-rgb: 22, 16, 31;
+  --bg: #16101f;
+  --bg-deep: #0f0a17;
+  --surface: #241a33;
+  --border: #3d2d55;
+  --text: #f2ecfa;
+  --text-soft: #b3a4cc;
+  --text-faint: #6f6190;
+  --accent: #b57fd6;
+  --accent-deep: #9a5fc0;
+  --accent-wash: rgba(181, 127, 214, 0.14);
+  --shadow: 0 10px 30px rgba(10, 5, 18, 0.55), 0 2px 8px rgba(10, 5, 18, 0.45);
+  --shadow-lift: 0 18px 48px rgba(10, 5, 18, 0.65),
+    0 0 24px rgba(181, 127, 214, 0.2);
+}
+
+/* Emerald — bottle-glass dark, spring accent (ramp: Emerald) */
+:root[data-theme="emerald"] {
+  color-scheme: dark;
+  --halo-rgb: 6, 18, 10;
+  --bg: #06120a;
+  --bg-deep: #030c06;
+  --surface: #0f2016;
+  --border: #1f3a2a;
+  --text: #e9f7ee;
+  --text-soft: #9cc0aa;
+  --text-faint: #5d8069;
+  --accent: #69cc99;
+  --accent-deep: #3fae7b;
+  --accent-wash: rgba(105, 204, 153, 0.13);
+  --shadow: 0 10px 30px rgba(1, 8, 4, 0.55), 0 2px 8px rgba(1, 8, 4, 0.45);
+  --shadow-lift: 0 18px 48px rgba(1, 8, 4, 0.65),
+    0 0 24px rgba(105, 204, 153, 0.18);
+}
+
+/* Ruby — dark garnet, warm signal accent (ramp: Rubies) */
+:root[data-theme="ruby"] {
+  color-scheme: dark;
+  --halo-rgb: 23, 10, 12;
+  --bg: #170a0c;
+  --bg-deep: #100608;
+  --surface: #261114;
+  --border: #45222a;
+  --text: #faeceb;
+  --text-soft: #cba3a3;
+  --text-faint: #8f6467;
+  --accent: #f2635f;
+  --accent-deep: #d8433f;
+  --accent-wash: rgba(242, 99, 95, 0.13);
+  --shadow: 0 10px 30px rgba(12, 3, 4, 0.55), 0 2px 8px rgba(12, 3, 4, 0.45);
+  --shadow-lift: 0 18px 48px rgba(12, 3, 4, 0.65),
+    0 0 24px rgba(242, 99, 95, 0.18);
 }
 
 *,
