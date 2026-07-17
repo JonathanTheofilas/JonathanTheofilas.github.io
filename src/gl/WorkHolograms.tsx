@@ -19,7 +19,7 @@ import { sectionProgress } from "../components/SectionContainer";
  * not underneath it.
  */
 
-const ACCENT = "#4a9fd8";
+const ACCENT = "#7fe0d8"; // Rosalina teal
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 

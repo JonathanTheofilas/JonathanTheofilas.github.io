@@ -27,8 +27,12 @@ export type Painter = (
 
 const TAU = Math.PI * 2;
 
+/** Screen background — a shade deeper than the sky, so the lit windows read
+ *  as glass with something happening inside, not as holes in the night. */
+const SCREEN_BG = "#0d1338";
+
 const kaleido: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   const seg = 8;
   for (let s = 0; s < seg; s++) {
@@ -55,7 +59,7 @@ const kaleido: Painter = (ctx, w, h, t, c, _store) => {
 };
 
 const waves: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   for (let k = 0; k < 3; k++) {
     ctx.strokeStyle = c[k % c.length];
@@ -100,7 +104,7 @@ const ant: Painter = (ctx, w, h, _t, c, s) => {
   s.ax = ax;
   s.ay = ay;
   s.ad = ad;
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = c[0];
   for (let y = 0; y < gh; y++)
@@ -111,7 +115,7 @@ const ant: Painter = (ctx, w, h, _t, c, s) => {
 };
 
 const bars: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   const n = 9;
   const bw = w / n;
@@ -125,7 +129,7 @@ const bars: Painter = (ctx, w, h, t, c, _store) => {
 };
 
 const nodes: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   const pts: [number, number][] = [];
   for (let i = 0; i < 7; i++) {
@@ -152,7 +156,7 @@ const nodes: Painter = (ctx, w, h, t, c, _store) => {
 };
 
 const rings: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   for (let i = 5; i >= 0; i--) {
     const r = 12 + i * 15 + 6 * Math.sin(t * 1.1 + i * 0.8);
@@ -167,7 +171,7 @@ const rings: Painter = (ctx, w, h, t, c, _store) => {
 };
 
 const dots: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   for (let y = 0; y < 6; y++)
     for (let x = 0; x < 10; x++) {
@@ -182,7 +186,7 @@ const dots: Painter = (ctx, w, h, t, c, _store) => {
 };
 
 const glyphs: Painter = (ctx, w, h, t, c, _store) => {
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = SCREEN_BG;
   ctx.fillRect(0, 0, w, h);
   const chars = "01{}<>=;+*#$";
   ctx.font = "700 17px monospace";
@@ -190,7 +194,7 @@ const glyphs: Painter = (ctx, w, h, t, c, _store) => {
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < 11; col++) {
       const ch = chars[(row * 11 + col + Math.floor(t * (row === hot ? 8 : 0.5))) % chars.length];
-      ctx.fillStyle = row === hot ? c[col % c.length] : "#c3ccd4";
+      ctx.fillStyle = row === hot ? c[col % c.length] : "#39426e";
       ctx.fillText(ch, 8 + col * 22, 28 + row * 28);
     }
   }

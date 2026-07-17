@@ -1,4 +1,5 @@
 import { Canvas } from "@react-three/fiber";
+import { Stars } from "@react-three/drei";
 import { useAppStore } from "../store/useAppStore";
 import { CameraRig } from "./CameraRig";
 import { ChannelField } from "./ChannelField";
@@ -44,15 +45,19 @@ export function Stage() {
       }}
       aria-hidden="true"
     >
-      <color attach="background" args={["#f4f6f8"]} />
-      <fog attach="fog" args={["#f4f6f8", 6, 34]} />
+      <color attach="background" args={["#0b1030"]} />
+      <fog attach="fog" args={["#0b1030", 6, 38]} />
 
-      {/* Wii light: white from above, cool blue bounce from below. Bright —
-          the void reads as luminous, and white objects must stay white, not
-          shade down to grey. */}
-      <hemisphereLight args={["#ffffff", "#dde9f2", 1.1]} />
-      <directionalLight position={[5, 7, 4]} intensity={1.3} />
-      <ambientLight intensity={0.45} />
+      {/* Observatory light: cool starlight from above, near-dark below, and
+          scenes carrying their own glow. The warm point source lives at the
+          finale beacon (FinaleOrb). */}
+      <hemisphereLight args={["#9fb2ff", "#141033", 0.55]} />
+      <directionalLight position={[5, 7, 4]} intensity={0.7} color="#dfe6ff" />
+      <ambientLight intensity={0.3} />
+
+      {/* the sky itself — a star sphere wide enough to hold the whole
+          camera path, unfogged, slowly twinkling */}
+      <Stars radius={140} depth={60} count={4200} factor={4} fade speed={0.6} />
 
       <CameraRig />
       <ChannelField />

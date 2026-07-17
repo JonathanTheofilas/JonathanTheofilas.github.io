@@ -19,6 +19,7 @@ const SPACING = 1.35;
 export function ProjectOrbit() {
   const row = useRef<Group>(null);
   const orbs = useRef<Mesh[]>([]);
+  const ring = useRef<Mesh>(null);
   const idxF = useRef(0);
 
   useFrame((state, dt) => {
@@ -30,6 +31,20 @@ export function ProjectOrbit() {
     idxF.current = MathUtils.damp(idxF.current, target, 5, dt);
 
     if (row.current) row.current.position.x = -idxF.current * SPACING;
+
+    // the golden orbit ring rides with the focused planet
+    if (ring.current) {
+      ring.current.position.x = idxF.current * SPACING;
+      const active = Math.round(idxF.current);
+      const orb = orbs.current[active];
+      ring.current.position.y = MathUtils.damp(
+        ring.current.position.y,
+        (orb?.position.y ?? 0) - 0.02,
+        6,
+        dt,
+      );
+      ring.current.scale.setScalar(1 + 0.05 * Math.sin(t * 1.8));
+    }
 
     orbs.current.forEach((m, i) => {
       const d = Math.abs(i - idxF.current);
@@ -87,6 +102,14 @@ export function ProjectOrbit() {
             />
           </mesh>
         ))}
+
+        {/* the focused planet's orbit ring — gold, breathing. Tilted enough
+            to open into an ellipse; near edge-on it reads as a stick through
+            the planet, not a ring around it. */}
+        <mesh ref={ring} rotation={[Math.PI / 2.7, 0, -0.18]}>
+          <torusGeometry args={[0.78, 0.016, 8, 72]} />
+          <meshBasicMaterial color="#ffd75e" transparent opacity={0.55} />
+        </mesh>
       </group>
     </group>
   );

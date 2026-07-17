@@ -3,9 +3,10 @@ import { useFrame } from "@react-three/fiber";
 import { Mesh } from "three";
 
 /**
- * The last thing on the page: a single glowing orb, breathing. It's the
- * loader's bloom made physical — the site opens with the glow and closes on
- * it. Bookends.
+ * The last thing on the page: the beacon — the Observatory's warm heart,
+ * breathing. It's also the loader's bloom made physical: the site opens on
+ * the glow and closes on it. The pointLight is real; the contact section
+ * genuinely basks in it.
  */
 export function FinaleOrb() {
   const core = useRef<Mesh>(null);
@@ -31,21 +32,22 @@ export function FinaleOrb() {
     // x 2.7 clears the contact links' 640px column — the orb shares the
     // frame with "Say hi", it doesn't sit on it.
     <group position={[2.7, 0.35, -122]}>
+      <pointLight color="#ffcf5e" intensity={3} distance={26} decay={2} />
       <mesh ref={core}>
         <sphereGeometry args={[0.8, 48, 48]} />
         <meshStandardMaterial
-          color="#dff0fb"
-          emissive="#4a9fd8"
-          emissiveIntensity={0.55}
+          color="#fff3d0"
+          emissive="#ffd75e"
+          emissiveIntensity={0.85}
           roughness={0.2}
         />
       </mesh>
       <mesh ref={halo}>
         <sphereGeometry args={[0.8, 32, 32]} />
         <meshStandardMaterial
-          color="#7ed0ff"
+          color="#ffd75e"
           transparent
-          opacity={0.12}
+          opacity={0.14}
           roughness={1}
           depthWrite={false}
         />
@@ -54,8 +56,8 @@ export function FinaleOrb() {
         <sphereGeometry args={[0.07, 12, 12]} />
         <meshStandardMaterial
           color="#ffffff"
-          emissive="#7ed0ff"
-          emissiveIntensity={0.8}
+          emissive="#ffd75e"
+          emissiveIntensity={1}
         />
       </mesh>
     </group>

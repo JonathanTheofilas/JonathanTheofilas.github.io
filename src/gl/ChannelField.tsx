@@ -20,15 +20,17 @@ import { PAINTERS, type PainterStore } from "./tilePainters";
  * 26 live canvases you can't see are just heat.
  */
 
+// Star-bit candy — the colours that rain when you spin through a galaxy.
+// The screens are the only colour in the night, so they get the full jar.
 const COLORS = [
-  "#4a6fa5", // sqlite
-  "#e8963a", // aws music
-  "#e05d5d", // booking
-  "#f0c94a", // bpe
-  "#5cb86e", // bug farm
-  "#8f6bc7", // gamesight
-  "#46b5a4", // data intelligence
-  "#4a9fd8", // the site accent
+  "#ffd75e", // star gold
+  "#ff9ad5", // pink
+  "#7fe0d8", // Rosalina teal
+  "#a8e06a", // green
+  "#b78aff", // purple
+  "#6fa8ff", // blue
+  "#ff8a65", // ember
+  "#fff3d0", // warm white
 ];
 
 const SCREEN_W = 256;
@@ -96,13 +98,13 @@ function Tile({ spec }: { spec: TileSpec }) {
     <Float speed={spec.speed} floatIntensity={0.6} rotationIntensity={0.15}>
       <group position={spec.pos} rotation={spec.rot}>
         <RoundedBox args={[spec.w, h, 0.12]} radius={0.16} smoothness={4}>
-          {/* the emissive floor keeps faces that point away from the light
-              from shading down to grey — Wii plastic is never dark */}
+          {/* dark glass — the Observatory's window frames at night, with just
+              enough self-glow to separate from the sky */}
           <meshStandardMaterial
-            color="#fdfefe"
-            roughness={0.32}
-            emissive="#ffffff"
-            emissiveIntensity={0.22}
+            color="#1d2554"
+            roughness={0.4}
+            emissive="#2c3670"
+            emissiveIntensity={0.35}
           />
         </RoundedBox>
         {/* the screen — unlit, like a real display */}

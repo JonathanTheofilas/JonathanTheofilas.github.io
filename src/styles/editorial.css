@@ -11,21 +11,25 @@
    ========================================================================== */
 
 :root {
-  /* --- surface ------------------------------------------------------- */
-  --bg: #f4f6f8; /* Wii off-white, inherited from wii.css */
-  --bg-deep: #e9eef3; /* recessed panels */
-  --surface: #ffffff;
-  --border: #dde4ea;
+  color-scheme: dark;
 
-  /* --- ink ----------------------------------------------------------- */
-  --text: #1a1d21; /* near-black — the "professional" move */
-  --text-soft: #6b7480;
-  --text-faint: #9aa4ae;
+  /* --- surface: the Observatory's night sky --------------------------
+     Deep indigo, not black — Galaxy's space always had colour in it. */
+  --bg: #0b1030;
+  --bg-deep: #060a20;
+  --surface: #151d4a;
+  --border: #2a3468;
 
-  /* --- accent -------------------------------------------------------- */
-  --accent: #4a9fd8;
-  --accent-deep: #2b7fb8;
-  --accent-wash: rgba(74, 159, 216, 0.1);
+  /* --- ink: starlight ------------------------------------------------ */
+  --text: #eef1fb;
+  --text-soft: #a3aed2;
+  --text-faint: #66719c;
+
+  /* --- accents: Rosalina teal + the beacon's gold -------------------- */
+  --accent: #7fe0d8;
+  --accent-deep: #4fc3b8;
+  --accent-wash: rgba(127, 224, 216, 0.12);
+  --star: #ffd75e; /* grand-star gold — the warm counterpoint */
 
   /* --- type ---------------------------------------------------------- */
   --font-display: "Inter Tight", system-ui, -apple-system, sans-serif;
@@ -52,11 +56,11 @@
   --radius-md: 14px;
   --radius-pill: 999px;
 
-  /* Wii softness — light, diffuse, blue-tinted. Not a drop shadow. */
-  --shadow: 0 10px 30px rgba(63, 110, 160, 0.1),
-    0 2px 8px rgba(63, 110, 160, 0.06);
-  --shadow-lift: 0 18px 48px rgba(63, 110, 160, 0.16),
-    0 4px 12px rgba(63, 110, 160, 0.08);
+  /* Dark-sky depth: shadows go near-black, lift gains a teal aura —
+     on a dark theme elevation reads as glow, not as shade. */
+  --shadow: 0 10px 30px rgba(3, 5, 20, 0.5), 0 2px 8px rgba(3, 5, 20, 0.4);
+  --shadow-lift: 0 18px 48px rgba(3, 5, 20, 0.6),
+    0 0 24px rgba(127, 224, 216, 0.18);
 
   /* --- motion -------------------------------------------------------- */
   /* alche fades its header over 1.5s. Typical web is 0.25s. That single
