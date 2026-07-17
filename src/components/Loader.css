@@ -1,0 +1,133 @@
+/* The loading page.
+
+   Same off-white field the site lands on, so the loader isn't a separate
+   screen you leave — it's the site, before it resolves. The bloom then opens
+   *through* it rather than swapping it out. */
+
+.ld {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.ld__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  position: relative;
+  z-index: 1;
+  transition:
+    opacity 0.45s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+
+.ld__mark {
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  /* the tracking pulls the mark off-centre; nudge it back */
+  text-indent: 0.18em;
+  color: var(--text);
+}
+
+.ld__track {
+  width: 132px;
+  height: 1px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.ld__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  /* driven per frame by the counter — no transition, or it lags the number */
+}
+
+.ld__pct {
+  color: var(--text-faint);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  font-variant-numeric: tabular-nums; /* the counter must not jitter */
+}
+
+/* --- the bloom --------------------------------------------------------
+
+   The Wii Menu's signature move: expand and glow rather than cut. This is the
+   one place on the site allowed to be springy — everything else eases. */
+
+.ld__bloom {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(126, 208, 255, 0.5) 0%,
+    rgba(126, 208, 255, 0.14) 45%,
+    rgba(126, 208, 255, 0) 70%
+  );
+  opacity: 0;
+  transform: scale(0.2);
+  pointer-events: none;
+}
+
+.ld--bloom .ld__bloom {
+  /* 60 × 40px comfortably clears any viewport */
+  animation: ld-bloom 0.9s var(--ease-out) forwards;
+}
+
+.ld--bloom .ld__inner {
+  opacity: 0;
+  transform: scale(1.06) translateY(-4px);
+}
+
+.ld--bloom {
+  animation: ld-out 0.9s var(--ease-out) forwards;
+}
+
+@keyframes ld-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(60);
+  }
+}
+
+@keyframes ld-out {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Reduced motion never sees this — Loader.tsx skips straight to done — but if
+   it somehow renders, don't animate it. */
+@media (prefers-reduced-motion: reduce) {
+  .ld--bloom,
+  .ld--bloom .ld__bloom {
+    animation: none;
+    opacity: 0;
+  }
+}

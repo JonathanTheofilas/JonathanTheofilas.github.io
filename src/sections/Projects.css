@@ -1,0 +1,181 @@
+.pj {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 0 var(--gutter);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* --- pinned index column ---------------------------------------------- */
+
+.pj__index {
+  display: block;
+  font-size: 32px;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 24px;
+}
+
+.pj__index_total {
+  color: var(--text-faint);
+  font-size: 16px;
+}
+
+.pj__heading {
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.pj__note {
+  color: var(--text-faint);
+  font-size: 11px;
+}
+
+/* --- the reel ---------------------------------------------------------- */
+
+.pj__viewport {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  /* The reel runs the full height but reads from the middle. Feathering the
+     ends means items arrive and leave rather than popping at a hard edge. */
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 26%,
+    #000 74%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 26%,
+    #000 74%,
+    transparent 100%
+  );
+}
+
+/* the fixed reading line the reel passes under */
+.pj__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--border);
+  transform: translateY(-1px);
+  z-index: 0;
+}
+
+.pj__reel {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* first slot starts on the reading line */
+  top: calc(50% - 66px);
+  will-change: transform;
+  /* no CSS transition — progress drives this per frame, and a transition on
+     top of that would fight the scroll and lag behind it */
+}
+
+.pj__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding-top: 14px;
+  transition: opacity var(--dur-mid) var(--ease-out);
+  will-change: opacity;
+}
+
+/* the Mii's colour, all that's left of it */
+.pj__dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 12px;
+  transform: scale(0.6);
+  transition: transform var(--dur-mid) var(--ease-pop);
+}
+.pj__item.is-active .pj__dot {
+  transform: scale(1);
+}
+
+.pj__body {
+  min-width: 0;
+}
+
+.pj__title {
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.pj__title a {
+  transition: color var(--dur-quick) var(--ease-out);
+}
+.pj__title a:hover {
+  color: var(--accent);
+}
+
+.pj__blurb {
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 56ch;
+}
+
+.pj__tags {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pj__tag {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: 10px;
+}
+
+.pj__item.is-active .pj__tag {
+  color: var(--text-soft);
+}
+
+@media (max-width: 1024px) {
+  .pj {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-content: center;
+  }
+  .pj__viewport {
+    height: 62vh;
+  }
+  .pj__index {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pj__blurb {
+    font-size: 13px;
+  }
+  .pj__tags {
+    display: none; /* the reel is tight on a phone; names and blurbs carry it */
+  }
+}

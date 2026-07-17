@@ -20,6 +20,43 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
  * the same result natively, so we use that instead.)
  */
 
+/* --- the ticker -------------------------------------------------------
+
+   One rAF loop for the whole page, not one per section.
+
+   The obvious build is per-section: an IntersectionObserver to detect "am I
+   on screen", gating a rAF loop so offscreen sections cost nothing. Don't.
+   It makes every section's motion depend on IO delivering — and when IO is
+   delayed or throttled, `visible` never flips, the loop never starts, and the
+   section sits at progress 0 forever. For the transition beats, progress 0 is
+   `opacity: 0`. The failure mode is a blank screen.
+
+   A single always-on loop measuring N sections is a handful of
+   getBoundingClientRect calls per frame — genuinely nothing — and it cannot
+   fail this way. Correctness first; the IO gate was optimising the wrong side
+   of the trade. The loop parks itself when nothing is subscribed. */
+
+type Measurer = () => void;
+const subscribers = new Set<Measurer>();
+let ticking = 0;
+
+function tick() {
+  for (const fn of subscribers) fn();
+  ticking = subscribers.size ? requestAnimationFrame(tick) : 0;
+}
+
+function subscribe(fn: Measurer) {
+  subscribers.add(fn);
+  if (!ticking) ticking = requestAnimationFrame(tick);
+  return () => {
+    subscribers.delete(fn);
+    if (!subscribers.size && ticking) {
+      cancelAnimationFrame(ticking);
+      ticking = 0;
+    }
+  };
+}
+
 interface Props {
   /** section identity — drives nav state and the #anchor */
   id: string;
@@ -38,40 +75,50 @@ export function SectionContainer({ id, vh, children, label, className }: Props) 
   const isFn = typeof children === "function";
 
   useEffect(() => {
-    // Only pay for the scroll math when the section is actually on screen,
-    // and only when the content asked for progress.
     if (!isFn) return;
     const el = ref.current;
     if (!el) return;
 
-    let raf = 0;
-    let visible = false;
+    let last = -1;
 
     const measure = () => {
       const rect = el.getBoundingClientRect();
-      // 0 when the section's top hits the viewport top,
-      // 1 when its bottom does.
-      const travel = rect.height - window.innerHeight;
-      const p = travel > 0 ? clamp(-rect.top / travel) : rect.top <= 0 ? 1 : 0;
-      setProgress(p);
-      if (visible) raf = requestAnimationFrame(measure);
+
+      // Cheap reject: fully offscreen sections can't have changed visibly.
+      // Still cheaper than an IntersectionObserver and it can't wedge.
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        const settled = rect.bottom < 0 ? 1 : 0;
+        if (settled !== last) {
+          last = settled;
+          setProgress(settled);
+        }
+        return;
+      }
+
+      // Progress runs 0 → 1 as the section's top passes the viewport top.
+      //
+      // The denominator is the only subtle part. A section taller than the
+      // viewport pins, and its budget is the pin distance (height - viewport).
+      // A section exactly one viewport tall has *no* pin distance — it can't
+      // hold still, it just scrolls away — so its budget is its own height.
+      //
+      // Using `height - viewport` unconditionally makes every vh:1 section
+      // divide by zero and report 1 forever, rendering it permanently finished
+      // (i.e. invisible) at scroll 0. Both transition beats and the hero are
+      // vh:1.
+      const pinTravel = rect.height - window.innerHeight;
+      const budget = pinTravel > 0 ? pinTravel : rect.height;
+      const p = budget > 0 ? clamp(-rect.top / budget) : 0;
+
+      // Don't re-render on sub-pixel noise.
+      if (Math.abs(p - last) > 0.0005) {
+        last = p;
+        setProgress(p);
+      }
     };
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
-        cancelAnimationFrame(raf);
-        if (visible) raf = requestAnimationFrame(measure);
-        else measure(); // settle at a final 0 or 1
-      },
-      { rootMargin: "10% 0px" },
-    );
-    io.observe(el);
-
-    return () => {
-      io.disconnect();
-      cancelAnimationFrame(raf);
-    };
+    measure(); // settle before the first frame, so nothing flashes
+    return subscribe(measure);
   }, [isFn]);
 
   return (
