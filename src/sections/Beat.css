@@ -1,0 +1,46 @@
+.beat {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+}
+
+.beat__inner {
+  will-change: transform, opacity;
+}
+
+.beat__index {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 20px;
+  letter-spacing: 0.2em;
+}
+
+.beat__title {
+  font-size: clamp(30px, 4.5vw, 56px);
+  line-height: var(--lh-display);
+  color: var(--text);
+}
+
+.beat__note {
+  margin-top: 18px;
+  max-width: 46ch;
+}
+
+.beat__rule {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 20vh;
+  height: 1px;
+  background: var(--border);
+  transform-origin: left;
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .beat__rule {
+    bottom: 14vh;
+  }
+}

@@ -1,70 +1,66 @@
-import { useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { useAppStore } from "./store/useAppStore";
-import { scrollApi } from "./scene/scrollApi";
-import { PAGES } from "./scene/layout";
-import { Scene } from "./scene/Scene";
-import { CursorLayer } from "./cursor/CursorLayer";
-import { BootOverlay } from "./overlay/BootOverlay";
-import { HUD } from "./overlay/HUD";
-import { ChapterPanels } from "./overlay/ChapterPanels";
+import { useLenis } from "./lib/useLenis";
+import { SectionContainer } from "./components/SectionContainer";
+import { Header } from "./components/Header";
+import { Hero } from "./sections/Hero";
+import { Beat } from "./sections/Beat";
+import { Experience } from "./sections/Experience";
 import { SrDocument } from "./overlay/SrDocument";
 import "./audio/sfx"; // wires Howler to the store
 
+/**
+ * The scroll budget — the whole layout in one table.
+ *
+ * `vh` is how many viewport-heights of scroll each section owns. This is the
+ * design decision, not a technicality: giving Experience 4.5 screens and the
+ * hero 1 says which is worth someone's time without writing a word about it.
+ *
+ * The reference site spends 48% of its entire length on the two things it
+ * sells and moves briskly through everything else. Same idea here — the
+ * production work gets the room; the introduction doesn't.
+ */
+const BUDGET = {
+  hero: 1,
+  workIntro: 1,
+  experience: 4.5,
+} as const;
+
 export default function App() {
-  const [track, setTrack] = useState<HTMLDivElement | null>(null);
-  const quality = useAppStore((s) => s.quality);
-  const explore = useAppStore((s) => s.explore);
-  const bootDone = useAppStore((s) => s.bootPhase === "done");
-  const activeProject = useAppStore((s) => s.activeProject);
-
-  useEffect(() => {
-    scrollApi.el = track;
-    return () => {
-      scrollApi.el = null;
-    };
-  }, [track]);
-
-  // the tour scrolls; explore/boot/project-focus lock the track
-  const scrollLocked = !bootDone || explore || !!activeProject;
+  useLenis();
 
   return (
     <>
-      <a className="skip-link" href="#sr-content">
+      <a className="skip-link chrome" href="#sr-content">
         Skip to content
       </a>
 
-      {/* scroll track — also the pointer-event source for the canvas */}
-      <div
-        ref={setTrack}
-        className={`scroll-track ${scrollLocked ? "no-scroll" : ""}`}
-      >
-        <div style={{ height: `${PAGES * 100}vh` }} />
-      </div>
+      <Header />
 
-      {track && (
-        <Canvas
-          className="main-canvas"
-          eventSource={track}
-          eventPrefix="client"
-          dpr={quality === "high" ? [1, 2] : 1}
-          camera={{ fov: 42, near: 0.1, far: 90, position: [0, 5.6, 15.5] }}
-          gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: "var(--z-canvas)" as unknown as number,
-          }}
+      <main id="top">
+        <SectionContainer id="hero" vh={BUDGET.hero} label="Introduction">
+          {(p) => <Hero progress={p} />}
+        </SectionContainer>
+
+        <SectionContainer id="work-intro" vh={BUDGET.workIntro} label="Work">
+          {(p) => (
+            <Beat
+              progress={p}
+              index="01"
+              title="Selected work"
+              note="Production systems — telephony, LLM pipelines, and the automation that keeps them honest."
+            />
+          )}
+        </SectionContainer>
+
+        <SectionContainer
+          id="experience"
+          vh={BUDGET.experience}
+          label="Experience"
         >
-          <Scene />
-        </Canvas>
-      )}
+          {(p) => <Experience progress={p} />}
+        </SectionContainer>
+      </main>
 
-      <ChapterPanels />
-      <HUD />
-      <BootOverlay />
-      <CursorLayer />
-      <div id="sr-content">
+      <div id="sr-content" className="sr-only">
         <SrDocument />
       </div>
     </>

@@ -1,0 +1,141 @@
+.xp {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 0 var(--gutter);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* --- pinned index column ---------------------------------------------- */
+
+.xp__head {
+  align-self: center;
+}
+
+.xp__index {
+  display: block;
+  font-size: 32px;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums; /* the counter must not jitter as it ticks */
+  margin-bottom: 24px;
+}
+
+.xp__index_total {
+  color: var(--text-faint);
+  font-size: 16px;
+}
+
+.xp__heading {
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.xp__note {
+  color: var(--text-faint);
+  font-size: 11px;
+}
+
+/* --- the list ---------------------------------------------------------- */
+
+.xp__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 62ch;
+}
+
+.xp__item {
+  position: relative;
+  padding-bottom: 28px;
+  /* Focus changes are a colour move, not a motion move — the list holds still
+     while attention travels down it. Slow enough to feel intentional. */
+  transition:
+    opacity var(--dur-mid) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.xp__title {
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1.1; /* a touch looser than the hero — these titles can wrap */
+  margin-bottom: 14px;
+}
+
+.xp__blurb {
+  color: var(--text-soft);
+  max-width: 58ch;
+}
+
+.xp__tags {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.xp__tag {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 11px;
+}
+
+.xp__item.is-active .xp__tag {
+  border-color: rgba(74, 159, 216, 0.35);
+  color: var(--accent-deep);
+  background: var(--accent-wash);
+}
+
+.xp__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform-origin: left;
+  will-change: transform;
+}
+
+@media (max-width: 1024px) {
+  .xp {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-content: center;
+  }
+  .xp__head {
+    align-self: start;
+  }
+  .xp__list {
+    gap: 28px;
+  }
+  .xp__index {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .xp__list {
+    gap: 20px;
+  }
+  .xp__item {
+    padding-bottom: 18px;
+  }
+  .xp__blurb {
+    font-size: 14px;
+  }
+}

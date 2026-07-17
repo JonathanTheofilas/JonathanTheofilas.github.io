@@ -1,0 +1,209 @@
+/* ==========================================================================
+   Editorial — design tokens & base
+   --------------------------------------------------------------------------
+   The Wii's restraint (soft whites, generous space, gentle easing, tactile
+   sound) run with alche.studio's discipline (scroll budgets, mono chrome,
+   tight display type, slow fades).
+
+   The palette descends from wii.css — same off-white, same blue — but the
+   text goes near-black for editorial contrast, where the plaza used a soft
+   grey. See docs in ai-website-cloner-template/docs/research/alche.studio/.
+   ========================================================================== */
+
+:root {
+  /* --- surface ------------------------------------------------------- */
+  --bg: #f4f6f8; /* Wii off-white, inherited from wii.css */
+  --bg-deep: #e9eef3; /* recessed panels */
+  --surface: #ffffff;
+  --border: #dde4ea;
+
+  /* --- ink ----------------------------------------------------------- */
+  --text: #1a1d21; /* near-black — the "professional" move */
+  --text-soft: #6b7480;
+  --text-faint: #9aa4ae;
+
+  /* --- accent -------------------------------------------------------- */
+  --accent: #4a9fd8;
+  --accent-deep: #2b7fb8;
+  --accent-wash: rgba(74, 159, 216, 0.1);
+
+  /* --- type ---------------------------------------------------------- */
+  --font-display: "Inter Tight", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter Tight", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* alche: biggest DOM type on the whole site is 40px, set at 1.0 line-height.
+     No 96px hero. The scale stays quiet. */
+  --fs-display: 40px;
+  --lh-display: 1;
+  --fs-body: 16px;
+  --lh-body: 1.8; /* alche body is 28.8/16 = 1.8 */
+  --fs-chrome: 13px; /* nav, labels, meta */
+  --ls-chrome: 0.1em; /* alche: 1.4px on 14px */
+  --fs-meta: 12px;
+  --lh-meta: 1.3;
+
+  /* --- space --------------------------------------------------------- */
+  --gutter: 50px; /* alche header padding: 40px 50px */
+  --header-h: 120px;
+
+  /* --- form ---------------------------------------------------------- */
+  --radius-lg: 24px; /* Wii roundness, slightly restrained */
+  --radius-md: 14px;
+  --radius-pill: 999px;
+
+  /* Wii softness — light, diffuse, blue-tinted. Not a drop shadow. */
+  --shadow: 0 10px 30px rgba(63, 110, 160, 0.1),
+    0 2px 8px rgba(63, 110, 160, 0.06);
+  --shadow-lift: 0 18px 48px rgba(63, 110, 160, 0.16),
+    0 4px 12px rgba(63, 110, 160, 0.08);
+
+  /* --- motion -------------------------------------------------------- */
+  /* alche fades its header over 1.5s. Typical web is 0.25s. That single
+     number is most of why theirs reads as film titles rather than nav. */
+  --dur-slow: 1.5s;
+  --dur-mid: 0.5s;
+  --dur-quick: 0.25s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* expo.out — calm */
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* Wii back.out, kept for tactile bits */
+
+  /* --- layers -------------------------------------------------------- */
+  --z-canvas: 0;
+  --z-content: 10;
+  --z-header: 99; /* alche: 99 */
+  --z-cursor: 60;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  /* Lenis drives scrolling; native smooth would fight it. alche sets this
+     to `auto` for the same reason. */
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis owns the scroll. These are the library's required hooks. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--accent-wash);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* --- typographic primitives ------------------------------------------ */
+
+/* All UI chrome is mono. alche runs nav, labels and buttons in IBM Plex Mono
+   at 11–14px with wide tracking — it reads technical and deliberate, doing
+   the job a serif does on a fashion site. */
+.chrome {
+  font-family: var(--font-mono);
+  font-size: var(--fs-chrome);
+  font-weight: 400;
+  letter-spacing: var(--ls-chrome);
+  line-height: 1;
+}
+
+/* Display type carries *character*, not scale — family, weight and the tight
+   tracking, and nothing else. Size and line-height belong to the component.
+
+   This is deliberate. If .display also set font-size, every component adding
+   its own size would be in a single-class specificity tie with it, and import
+   order would decide the winner — which is how the hero, the section beats and
+   the work titles all silently collapsed to the same 40px. Leave size out and
+   the tie can't happen. Components should reach for --fs-display when they
+   want the reference's 40px default. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em; /* wide tracking on small text, none/negative on large */
+}
+
+.meta {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-soft);
+}
+
+/* --- accessibility --------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: 12px 20px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --gutter: 24px;
+    --header-h: 84px;
+    --fs-display: 30px;
+  }
+}
