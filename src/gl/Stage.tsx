@@ -3,9 +3,9 @@ import { useAppStore } from "../store/useAppStore";
 import { CameraRig } from "./CameraRig";
 import { ChannelField } from "./ChannelField";
 import { WorkHolograms } from "./WorkHolograms";
-import { ProjectOrbit } from "./ProjectOrbit";
+import { DitherMonolith } from "./DitherMonolith";
 import { Constellation } from "./Constellation";
-import { FinaleOrb } from "./FinaleOrb";
+import { DitherOrb } from "./DitherOrb";
 
 /**
  * The GL stage — the show. The reference site is architected exactly this
@@ -57,9 +57,9 @@ export function Stage() {
       <CameraRig />
       <ChannelField />
       <WorkHolograms />
-      <ProjectOrbit />
+      <DitherMonolith />
       <Constellation />
-      <FinaleOrb />
+      <DitherOrb />
     </Canvas>
   );
 }
