@@ -1,29 +1,33 @@
 import { Canvas } from "@react-three/fiber";
 import { useAppStore } from "../store/useAppStore";
 import { CameraRig } from "./CameraRig";
-import { ChannelField } from "./ChannelField";
-import { WorkHolograms } from "./WorkHolograms";
+import { DitherWave } from "./DitherWave";
+import { DitherEmblem } from "./DitherEmblem";
 import { DitherMonolith } from "./DitherMonolith";
-import { Constellation } from "./Constellation";
+import { DitherDust } from "./DitherDust";
 import { DitherOrb } from "./DitherOrb";
 
 /**
- * The GL stage — the show. The reference site is architected exactly this
- * way: one canvas spanning the whole experience, scenes staged along a camera
- * dolly, the DOM reduced to typography floating above it. Their void is
- * black; ours is the Wii's luminous white.
+ * The GL stage — the show. One canvas spanning the whole experience, scenes
+ * staged along a camera dolly, the DOM reduced to typography floating above
+ * it, on the Wii's luminous white.
  *
- * Fog does the scene management. Zones sit ~30 units apart along the path
- * and the fog horizon is ~34, so each diorama assembles out of the white as
- * the camera approaches and dissolves behind it after — no visibility
- * bookkeeping, just atmosphere.
+ * Every scene speaks one language now: instanced pixel-cells appearing and
+ * vanishing in Bayer order, coloured from the gemstone ramps. Nothing on
+ * this site fades — things materialize.
  *
- * pointer-events is none: the DOM above owns every interaction. The canvas
- * is scenery, never a hit target.
+ *   hero      The Wave      a pixel ocean rolling under the type
+ *   03        The Emblem    one panel, a new pattern per work item
+ *   05        The Monolith  the active project as a floating gem slab
+ *   06        The Dust      a twinkling field; the Mii colours' last echo
+ *   07        The Orb       "look into the orb" — the closing treasure
  *
- * Reduced motion renders no canvas at all. A camera dolly you asked not to
- * experience isn't scenery, it's motion sickness — the typographic site
- * stands alone.
+ * Fog does the scene management: zones sit ~30 units apart, the horizon is
+ * ~34, so each piece assembles out of the white as the camera approaches.
+ *
+ * The scenes are unlit (meshBasicMaterial) — the lights below exist only so
+ * any future lit prop doesn't arrive into darkness. pointer-events is none:
+ * the DOM owns every interaction. Reduced motion renders no canvas at all.
  */
 export function Stage() {
   const reducedMotion = useAppStore((s) => s.reducedMotion);
@@ -47,18 +51,15 @@ export function Stage() {
       <color attach="background" args={["#f4f6f8"]} />
       <fog attach="fog" args={["#f4f6f8", 6, 34]} />
 
-      {/* Wii light: white from above, cool blue bounce from below. Bright —
-          the void reads as luminous, and white objects must stay white, not
-          shade down to grey. */}
       <hemisphereLight args={["#ffffff", "#dde9f2", 1.1]} />
       <directionalLight position={[5, 7, 4]} intensity={1.3} />
       <ambientLight intensity={0.45} />
 
       <CameraRig />
-      <ChannelField />
-      <WorkHolograms />
+      <DitherWave />
+      <DitherEmblem />
       <DitherMonolith />
-      <Constellation />
+      <DitherDust />
       <DitherOrb />
     </Canvas>
   );

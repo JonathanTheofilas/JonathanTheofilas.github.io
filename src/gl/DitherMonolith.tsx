@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { Color, DoubleSide, InstancedMesh, MathUtils, Object3D } from "three";
 import { projects } from "../content/projects";
 import { sectionProgress } from "../components/SectionContainer";
-import { BAYER4 } from "./tilePainters";
+import { BAYER4, hash } from "./dither";
 import { rampOf } from "./gemPalettes";
 
 /**
@@ -39,7 +39,6 @@ const RAMP_NAMES = [
   "Emerald Shard", // data intelligence — teal
 ];
 
-const hash = (n: number) => ((Math.sin(n * 12.9898) * 43758.5453) % 1 + 1) % 1;
 
 export function DitherMonolith() {
   const mesh = useRef<InstancedMesh>(null);
