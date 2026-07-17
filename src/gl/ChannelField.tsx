@@ -120,14 +120,21 @@ function Tile({ spec }: { spec: TileSpec }) {
 export function ChannelField() {
   const tiles = useMemo<TileSpec[]>(() => {
     const rnd = mulberry32(2006); // the year the Wii shipped
-    return Array.from({ length: 26 }, () => {
+    // Twelve, not twenty-six: the tiles are satellites of the Observatory
+    // now, not the main event. They loosely ring the structure (which sits
+    // at ~[3.6, -0.9, -7.5]) like signal panels in orbit around it.
+    return Array.from({ length: 12 }, (_, i) => {
       const pick = () => COLORS[Math.floor(rnd() * COLORS.length)];
+      const a = (i / 12) * Math.PI * 2 + rnd() * 0.4;
+      const r = 5.2 + rnd() * 2.6;
       return {
-        // Nearest tile sits ~6 units from the camera's opening position —
-        // anything closer becomes a wall across the viewport, not a field.
-        pos: [(rnd() * 2 - 1) * 8, -1.8 + rnd() * 4.4, 3 - rnd() * 25],
+        pos: [
+          3.6 + Math.cos(a) * r,
+          -0.9 + (rnd() * 2 - 1) * 2.6,
+          -7.5 + Math.sin(a) * r * 0.8,
+        ],
         rot: [(rnd() * 2 - 1) * 0.12, (rnd() * 2 - 1) * 0.35, 0],
-        w: 1.5 + rnd() * 1.2,
+        w: 1.3 + rnd() * 0.9,
         speed: 0.5 + rnd() * 0.8,
         phase: rnd() * 20,
         painterBase: Math.floor(rnd() * PAINTERS.length),

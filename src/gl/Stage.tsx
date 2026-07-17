@@ -2,6 +2,8 @@ import { Canvas } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { useAppStore } from "../store/useAppStore";
 import { CameraRig } from "./CameraRig";
+import { NebulaSky } from "./NebulaSky";
+import { Observatory } from "./Observatory";
 import { ChannelField } from "./ChannelField";
 import { WorkHolograms } from "./WorkHolograms";
 import { ProjectOrbit } from "./ProjectOrbit";
@@ -35,7 +37,9 @@ export function Stage() {
   return (
     <Canvas
       dpr={quality === "high" ? [1, 1.75] : 1}
-      camera={{ fov: 38, near: 0.1, far: 60, position: [0, 0.3, 9] }}
+      /* far plane must clear the sky sphere (r 220). The first star sky was
+         placed at r 140 with far at 60 — clipped, never rendered once. */
+      camera={{ fov: 38, near: 0.1, far: 400, position: [0, 0.3, 9] }}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
       style={{
         position: "fixed",
@@ -46,18 +50,21 @@ export function Stage() {
       aria-hidden="true"
     >
       <color attach="background" args={["#0b1030"]} />
-      <fog attach="fog" args={["#0b1030", 6, 38]} />
+      {/* fog isolates the scenes; the sky layers all set fog={false}.
+          The fog colour matches the eye-level sky — if it's darker than
+          the sky behind it, every distant object silhouettes as a dark
+          speck instead of dissolving. */}
+      <fog attach="fog" args={["#0a0e2c", 8, 44]} />
 
       {/* Observatory light: cool starlight from above, near-dark below, and
-          scenes carrying their own glow. The warm point source lives at the
-          finale beacon (FinaleOrb). */}
+          scenes carrying their own glow (dome windows, the beacons). */}
       <hemisphereLight args={["#9fb2ff", "#141033", 0.55]} />
       <directionalLight position={[5, 7, 4]} intensity={0.7} color="#dfe6ff" />
-      <ambientLight intensity={0.3} />
+      <ambientLight intensity={0.34} />
 
-      {/* the sky itself — a star sphere wide enough to hold the whole
-          camera path, unfogged, slowly twinkling */}
-      <Stars radius={140} depth={60} count={4200} factor={4} fade speed={0.6} />
+      <NebulaSky />
+      <Stars radius={120} depth={40} count={5000} factor={4} fade speed={0.6} />
+      <Observatory />
 
       <CameraRig />
       <ChannelField />

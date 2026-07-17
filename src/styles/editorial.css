@@ -130,6 +130,22 @@ main {
   z-index: var(--z-content);
 }
 
+/* The veil: a permanent left-side darkening between the sky and the text.
+   Every text column on the site lives left; every GL scene lives right.
+   Whatever the nebula does, the type always sits on deep space. */
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1; /* above the canvas (0), below main (10) */
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(6, 10, 32, 0.72) 0%,
+    rgba(6, 10, 32, 0.38) 36%,
+    transparent 62%
+  );
+}
+
 img,
 canvas {
   display: block;

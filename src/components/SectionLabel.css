@@ -1,4 +1,5 @@
 .sl {
+  text-shadow: 0 1px 10px rgba(6, 10, 32, 0.85);
   position: fixed;
   right: var(--gutter);
   bottom: 18px;

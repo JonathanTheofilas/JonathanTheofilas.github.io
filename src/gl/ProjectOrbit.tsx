@@ -1,6 +1,12 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Group, MathUtils, Mesh, MeshPhysicalMaterial } from "three";
+import {
+  Group,
+  MathUtils,
+  Mesh,
+  MeshPhysicalMaterial,
+  MeshStandardMaterial,
+} from "three";
 import { projects } from "../content/projects";
 import { sectionProgress } from "../components/SectionContainer";
 
@@ -16,9 +22,21 @@ import { sectionProgress } from "../components/SectionContainer";
 
 const SPACING = 1.35;
 
+// polar caps — grass, ice, sand… each project orb reads as a tiny planetoid
+const CAPS = [
+  "#7fce6a",
+  "#e8f4ff",
+  "#f0d9a8",
+  "#c8f0e8",
+  "#ffd9e8",
+  "#d8c8ff",
+  "#cfe8c0",
+];
+
 export function ProjectOrbit() {
   const row = useRef<Group>(null);
   const orbs = useRef<Mesh[]>([]);
+  const capMats = useRef<MeshStandardMaterial[]>([]);
   const ring = useRef<Mesh>(null);
   const idxF = useRef(0);
 
@@ -70,6 +88,8 @@ export function ProjectOrbit() {
       m.rotation.y += dt * (0.15 + focus * 0.5);
       const mat = m.material as MeshPhysicalMaterial;
       mat.opacity = MathUtils.damp(mat.opacity, 0.15 + 0.85 * presence, 5, dt);
+      const cap = capMats.current[i];
+      if (cap) cap.opacity = mat.opacity; // the cap fades with its planet
       mat.emissiveIntensity = MathUtils.damp(
         mat.emissiveIntensity,
         0.05 + focus * 0.3,
@@ -100,6 +120,20 @@ export function ProjectOrbit() {
               clearcoatRoughness={0.15}
               transparent
             />
+            {/* the polar cap — child of the orb, so it spins and lifts with it */}
+            <mesh>
+              <sphereGeometry
+                args={[0.428, 24, 12, 0, Math.PI * 2, 0, 0.72]}
+              />
+              <meshStandardMaterial
+                ref={(mat) => {
+                  if (mat) capMats.current[i] = mat;
+                }}
+                color={CAPS[i % CAPS.length]}
+                roughness={0.55}
+                transparent
+              />
+            </mesh>
           </mesh>
         ))}
 

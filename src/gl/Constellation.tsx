@@ -63,6 +63,24 @@ export function Constellation() {
           </mesh>
         );
       })}
+
+      {/* small planetoids drifting through the garden — grass and ice caps */}
+      <mesh position={[-4.6, 0.4, -5]} rotation={[0.3, 0, -0.2]}>
+        <sphereGeometry args={[0.55, 24, 24]} />
+        <meshStandardMaterial color="#4a6fa5" roughness={0.5} />
+        <mesh>
+          <sphereGeometry args={[0.56, 20, 10, 0, Math.PI * 2, 0, 0.8]} />
+          <meshStandardMaterial color="#7fce6a" roughness={0.6} />
+        </mesh>
+      </mesh>
+      <mesh position={[4.9, 2.4, -9]} rotation={[-0.2, 0, 0.4]}>
+        <sphereGeometry args={[0.38, 20, 20]} />
+        <meshStandardMaterial color="#8f6bc7" roughness={0.5} />
+        <mesh>
+          <sphereGeometry args={[0.39, 18, 9, 0, Math.PI * 2, 0, 0.7]} />
+          <meshStandardMaterial color="#e8f4ff" roughness={0.55} />
+        </mesh>
+      </mesh>
     </group>
   );
 }

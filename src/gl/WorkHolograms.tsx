@@ -90,8 +90,29 @@ export function WorkHolograms() {
 
   return (
     // Scaled to sit beside the text column, never across it — the swarm's
-    // widest orbit must stay inside the right third of the frame.
+    // widest orbit must stay inside the right third of the frame. The
+    // holograms hover over an Observatory observation deck: platform, gold
+    // trim, under-skirt falling away into space.
     <group ref={outer} position={[3.1, 0.1, -32]} scale={0.72}>
+      <group position={[0, -1.7, 0]}>
+        <mesh>
+          <cylinderGeometry args={[1.9, 2.05, 0.18, 28]} />
+          <meshStandardMaterial color="#2c3a78" roughness={0.5} />
+        </mesh>
+        <mesh position={[0, 0.09, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[1.9, 0.035, 8, 56]} />
+          <meshStandardMaterial
+            color="#ffd75e"
+            emissive="#ffd75e"
+            emissiveIntensity={0.5}
+            roughness={0.3}
+          />
+        </mesh>
+        <mesh position={[0, -1.0, 0]} rotation={[Math.PI, 0, 0]}>
+          <coneGeometry args={[1.3, 1.8, 14]} />
+          <meshStandardMaterial color="#1d2857" roughness={0.6} />
+        </mesh>
+      </group>
       {/* 0 — telephony: concentric rings */}
       <group ref={g0}>
         {[1.0, 1.35, 1.7].map((r, i) => (

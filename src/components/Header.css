@@ -7,6 +7,9 @@
    that we slow down. */
 
 .hd {
+  /* the sky behind the header can be bright nebula — every piece of fixed
+     chrome carries a soft dark halo so it reads on any backdrop */
+  text-shadow: 0 1px 10px rgba(6, 10, 32, 0.85);
   position: fixed;
   top: 0;
   left: 0;

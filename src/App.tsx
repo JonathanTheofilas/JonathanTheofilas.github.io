@@ -35,6 +35,7 @@ export default function App() {
 
       <Loader />
       <Stage />
+      <div className="veil" aria-hidden="true" />
       <Header />
       <SectionLabel />
 
