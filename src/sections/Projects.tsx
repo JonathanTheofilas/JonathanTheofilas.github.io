@@ -1,98 +1,81 @@
 import { projects } from "../content/projects";
-import { span, easeOut } from "../components/SectionContainer";
+import { span } from "../components/SectionContainer";
 import "./Projects.css";
 
 /**
- * The project reel.
+ * The works index.
  *
- * INTERACTION MODEL: scroll-driven. Where Experience holds still and moves
- * *attention*, this physically travels — the reel slides under a fixed
- * reading line. Two big scroll-driven sections that behaved identically would
- * read as one long section with a heading in the middle.
+ * alche.studio-lean: the projects read as a numbered catalogue you can scan at
+ * a glance — every entry visible at once, hairline-ruled — rather than a reel
+ * that reveals one at a time. Scrolling walks a highlight down the index and
+ * crossfades the detail readout beside it; the GL camera keeps travelling
+ * underneath. Kept deliberately distinct from Experience, which stays a
+ * one-at-a-time contrast list so the two big scroll sections don't read as one.
  *
- * Each Mii's body colour survives here as its project's accent. Nobody who
- * didn't know the plaza will ever notice; the palette was chosen per-project
- * back when each one was a character, and it still is.
+ * Each Mii's body colour survives as its row marker — chosen per-project back
+ * when each entry was a character in the plaza.
  */
-
-const SLOT = 132; // px per project in the reel
-
 export function Projects({ progress }: { progress: number }) {
   const n = projects.length;
   const p = span(progress, 0.06, 0.94);
   const active = Math.min(n - 1, Math.floor(p * n + 0.0001));
-
-  // the reel travels one slot per project, eased so it settles rather than slides
-  const travel = easeOut(p) * (n - 1) * SLOT;
+  const cur = projects[active];
 
   return (
     <div className="pj">
       <div className="pj__head">
-        <span className="pj__index chrome">
-          {String(active + 1).padStart(2, "0")}
-          <span className="pj__index_total"> / {String(n).padStart(2, "0")}</span>
-        </span>
-        <h2 className="pj__heading chrome">Projects</h2>
+        <h2 className="pj__heading chrome">Selected work</h2>
         <p className="pj__note meta">Things built to find out how they work.</p>
       </div>
 
-      <div className="pj__viewport">
-        {/* the reading line the reel passes under */}
-        <span className="pj__line" aria-hidden="true" />
+      <ol className="pj__list">
+        {projects.map((proj, i) => {
+          const isActive = i === active;
+          return (
+            <li
+              key={proj.id}
+              className={`pj__row ${isActive ? "is-active" : ""}`}
+              aria-current={isActive || undefined}
+            >
+              <span className="pj__num chrome">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span
+                className="pj__dot"
+                aria-hidden="true"
+                style={{ background: proj.mii.color }}
+              />
+              <h3 className="pj__title display">
+                {proj.repo ? (
+                  <a href={proj.repo} target="_blank" rel="noreferrer">
+                    {proj.name}
+                  </a>
+                ) : (
+                  proj.name
+                )}
+              </h3>
+            </li>
+          );
+        })}
+      </ol>
 
-        <ol
-          className="pj__reel"
-          style={{ transform: `translateY(${-travel}px)` }}
-        >
-          {projects.map((proj, i) => {
-            const isActive = i === active;
-            const dist = Math.abs(i - active);
-            return (
-              <li
-                key={proj.id}
-                className={`pj__item ${isActive ? "is-active" : ""}`}
-                style={{
-                  height: SLOT,
-                  opacity: isActive ? 1 : Math.max(0.12, 0.34 - dist * 0.08),
-                }}
-                aria-current={isActive || undefined}
-              >
-                <span
-                  className="pj__dot"
-                  aria-hidden="true"
-                  style={{ background: proj.mii.color }}
-                />
-
-                <div className="pj__body">
-                  <h3 className="pj__title display">
-                    {proj.repo ? (
-                      <a
-                        href={proj.repo}
-                        target="_blank"
-                        rel="noreferrer"
-                        tabIndex={isActive ? 0 : -1}
-                      >
-                        {proj.name}
-                      </a>
-                    ) : (
-                      proj.name
-                    )}
-                  </h3>
-
-                  <p className="pj__blurb">{proj.blurb}</p>
-
-                  <ul className="pj__tags" aria-label="Stack">
-                    {proj.tags.map((t) => (
-                      <li key={t} className="pj__tag chrome">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+      <div className="pj__detail">
+        {/* keyed on the active id → remounts and fades on change (opacity only) */}
+        <div className="pj__detail_inner" key={cur.id}>
+          <span className="pj__detail_label chrome">
+            {String(active + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+            {" · "}
+            {cur.name}
+          </span>
+          <p className="pj__detail_blurb">{cur.blurb}</p>
+          <ul className="pj__tags" aria-label="Stack">
+            {cur.tags.map((t) => (
+              <li key={t} className="pj__tag chrome">
+                {t}
               </li>
-            );
-          })}
-        </ol>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
