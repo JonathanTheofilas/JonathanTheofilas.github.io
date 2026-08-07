@@ -45,7 +45,7 @@
   --fs-body: 16px;
   --lh-body: 1.8; /* alche body is 28.8/16 = 1.8 */
   --fs-chrome: 13px; /* nav, labels, meta */
-  --ls-chrome: 0.1em; /* alche: 1.4px on 14px */
+  --ls-chrome: 0.13em; /* alche runs ~3.2px on its 24px nav — wide, deliberate */
   --fs-meta: 12px;
   --lh-meta: 1.3;
 

@@ -14,6 +14,12 @@ export const site = {
     "Selected work — systems, cloud, and AR. A portfolio by Jonathan Theofilas.",
   url: "https://jonathantheofilas.github.io",
 
+  hero: {
+    // A small personal line under the name, set just above the chrome. Swap
+    // the text to whatever you want.
+    statement: "112%'d Hollow Knight",
+  },
+
   about: {
     heading: "About me",
     body: [
@@ -37,6 +43,18 @@ export const site = {
         blurb:
           "A platform of LLM agents for enrichment, outreach sequencing, and reply classification, wired to CRM and finance APIs with approval workflows.",
         tags: ["FastAPI", "PostgreSQL", "React", "LLM agents"],
+      },
+      {
+        title: "AI governance console",
+        blurb:
+          "An operator console for governing a fleet of AI agents: policy checks, compliance posture, and human-in-the-loop approvals, on a multi-tenant backend.",
+        tags: ["React/TS", "FastAPI", "PostgreSQL", "Azure"],
+      },
+      {
+        title: "Workflow-analysis platform",
+        blurb:
+          "A platform that maps an organisation's workflows, surfaces automation opportunities, and turns them into phased roadmaps, backed by an AI analysis pipeline and background jobs.",
+        tags: ["FastAPI", "PostgreSQL", "Celery", "React/TS"],
       },
       {
         title: "Telecom billing automation",
