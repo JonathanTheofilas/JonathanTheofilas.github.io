@@ -21,9 +21,11 @@ export function Hero({ progress }: { progress: number }) {
           transform: `translateY(${exit * -40}px)`,
         }}
       >
-        <p className="hero__eyebrow chrome">{site.location}</p>
+        <p className="hero__identity chrome">
+          {site.name} · {site.location}
+        </p>
 
-        <h1 className="hero__name display">{site.name}</h1>
+        <h1 className="hero__statement display">{site.hero.statement}</h1>
 
         <p className="hero__tagline chrome">{site.tagline}</p>
       </div>

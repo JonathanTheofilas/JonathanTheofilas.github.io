@@ -32,24 +32,27 @@
   will-change: transform, opacity;
 }
 
-.hero__eyebrow {
+.hero__identity {
   color: var(--text-faint);
-  margin-bottom: 28px;
+  margin-bottom: 12px;
 }
 
-/* Deliberately not huge. The reference caps its entire site at 40px of DOM
-   type — the scale stays quiet so the work is the loud thing. Here it scales
-   with the viewport but tops out well short of a billboard. */
-.hero__name {
-  font-size: clamp(38px, 7vw, 88px);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  font-weight: 500;
+/* alche-lean: the mission statement is the loud thing now, not the name. A
+   cinematic display that wraps to 2–3 lines and fills the fold the way
+   alche.studio's "Architect worlds…" does, then lifts and dissolves on scroll. */
+.hero__statement {
+  margin-top: 6px;
+  font-size: 1.25rem; /* ~20px, a small step up from the 13px chrome line */
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  font-weight: 600;
   color: var(--text);
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .hero__tagline {
-  margin-top: 32px;
+  margin-top: 36px;
   color: var(--text-soft);
   letter-spacing: 0.14em;
 }
@@ -96,7 +99,7 @@
 }
 
 @media (max-width: 768px) {
-  .hero__eyebrow {
+  .hero__identity {
     margin-bottom: 18px;
   }
   .hero__tagline {

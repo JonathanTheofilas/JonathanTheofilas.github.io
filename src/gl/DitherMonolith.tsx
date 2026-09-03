@@ -156,7 +156,10 @@ export function DitherMonolith() {
   });
 
   return (
-    <group position={[3.2, -0.1, -60.5]}>
+    // Middle-right: was x=3.2 (far right, over the old right-side copy), then
+    // 0.8 (centred). This sits right of the frame centre, clear of the
+    // left-hugging works-index copy.
+    <group position={[2.0, -0.1, -60.5]}>
       <instancedMesh
         ref={mesh}
         args={[undefined as never, undefined as never, COUNT]}

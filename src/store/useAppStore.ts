@@ -49,10 +49,6 @@ const storedTheme: ThemeMode | null =
       : THEMES.includes(rawTheme as ThemeMode)
         ? (rawTheme as ThemeMode)
         : null;
-const prefersDark =
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-color-scheme: dark)").matches;
-
 interface AppState {
   reducedMotion: boolean;
   touch: boolean;
@@ -120,7 +116,9 @@ export const useAppStore = create<AppState>((set) => ({
   activeProject: null,
   setActiveProject: (activeProject) => set({ activeProject }),
 
-  theme: storedTheme ?? (prefersDark ? "ink" : "porcelain"),
+  // alche.studio-lean: dark is the default now. Returning visitors keep their
+  // stored choice (porcelain included); first-timers open on the cinematic dark.
+  theme: storedTheme ?? "ink",
   setTheme: (theme) =>
     set(() => {
       try {
